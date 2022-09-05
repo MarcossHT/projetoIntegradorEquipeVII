@@ -1,5 +1,7 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
+
 public class Dentista {
     private Integer id;
     private String nome;
@@ -18,6 +20,12 @@ public class Dentista {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.matriculaCadastro = matriculaCadastro;
+    }
+
+    public Dentista(DentistaDTO dentistaDTO) {
+        this.nome = dentistaDTO.getNome();
+        this.sobrenome = dentistaDTO.getSobrenome();
+        this.matriculaCadastro = dentistaDTO.getMatriculaCadastro();
     }
 
     public Integer getId() {
