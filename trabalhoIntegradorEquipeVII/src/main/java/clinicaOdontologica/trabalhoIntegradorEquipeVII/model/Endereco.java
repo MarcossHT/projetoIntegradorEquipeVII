@@ -1,5 +1,7 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
+
 public class Endereco {
     private Integer id;
     private String rua;
@@ -23,6 +25,14 @@ public class Endereco {
         this.bairro = bairro;
         this.cidade = cidade;
         this.estado = estado;
+    }
+
+    public Endereco(EnderecoDTO enderecoDTO) {
+        this.rua = enderecoDTO.getRua();
+        this.numero = enderecoDTO.getNumero();
+        this.bairro = enderecoDTO.getBairro();
+        this.cidade = enderecoDTO.getCidade();
+        this.estado = enderecoDTO.getEstado();
     }
 
     public Integer getId() {

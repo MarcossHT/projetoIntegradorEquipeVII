@@ -3,9 +3,12 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.service;
 import java.util.List;
 
 public interface IService<T> {
-    T salvar(T t);
+    T create(T t);
+    T getById(int id);
 
-    List<T> buscarTodos();
+    String delete(int id);
 
-    String excluir(Integer id);
+    T update(T t, int id);
+
+    List<T> getAll();
 }
