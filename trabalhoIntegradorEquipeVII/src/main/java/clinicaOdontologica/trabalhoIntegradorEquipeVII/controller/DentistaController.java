@@ -1,8 +1,12 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
+
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.ConsultaDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.DentistaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,21 +18,46 @@ public class DentistaController {
     @Autowired
     private DentistaServiceImpl dentistaService;
 
-    @GetMapping
-    public Dentista salvar(@RequestParam(value = "id") Integer id,
-                           @RequestParam(value = "nome") String nome,
-                           @RequestParam(value = "sobrenome") String sobrenome,
-                           @RequestParam(value = "matriculaCadastro") String matriculaCadastro) {
-        return dentistaService.salvar(new Dentista(id, nome, sobrenome, matriculaCadastro));
-    }
+    @PostMapping
+    public ResponseEntity<DentistaDTO> create(@RequestBody DentistaDTO dentistaDTO) {
+        ResponseEntity responseEntity = null;
 
-    @GetMapping("/buscar")
-    public List<Dentista> buscarTodos() {
-        return dentistaService.buscarTodos();
+        if (dentistaDTO.getNome() != null) {
+            DentistaDTO dentistaDTO1  = dentistaService.create(dentistaDTO);
+            responseEntity = new ResponseEntity(dentistaDTO1, HttpStatus.OK);
+        } else {
+            responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @GetMapping("/{id}")
-    public String excluir(@PathVariable Integer id) {
-        return dentistaService.excluir(id);
+    public ResponseEntity<DentistaDTO> getById(@PathVariable Integer id) {
+        ResponseEntity responseEntity = null;
+
+        DentistaDTO dentistaDTO = dentistaService.getById(id);
+
+        if (dentistaDTO != null) {
+            responseEntity = new ResponseEntity(dentistaDTO, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Dentista não existente", HttpStatus.BAD_REQUEST);
+        }
+
+        return responseEntity;
+    }
+
+    @GetMapping
+    public List<DentistaDTO> getAll() {
+        return dentistaService.getAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete (@PathVariable int id) {
+        return dentistaService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public DentistaDTO update(@RequestBody DentistaDTO dentistaDTO, @PathVariable int id) {
+        return dentistaService.update(dentistaDTO, id);
     }
 }

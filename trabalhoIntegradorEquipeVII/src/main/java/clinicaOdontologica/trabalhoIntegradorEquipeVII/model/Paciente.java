@@ -1,5 +1,7 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
+
 public class Paciente {
     private Integer id;
     private String nome;
@@ -22,6 +24,13 @@ public class Paciente {
         this.sobrenome = sobrenome;
         this.rg = rg;
         this.dataDeAlta = dataDeAlta;
+    }
+
+    public Paciente(PacienteDTO pacienteDTO) {
+        this.nome = pacienteDTO.getNome();
+        this.sobrenome = pacienteDTO.getSobrenome();
+        this.rg = pacienteDTO.getRg();
+        this.dataDeAlta = pacienteDTO.getDataDeAlta();
     }
 
     public Integer getId() {
