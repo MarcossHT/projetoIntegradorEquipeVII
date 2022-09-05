@@ -1,12 +1,13 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.PacienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,23 +18,48 @@ public class PacienteController {
     @Autowired
     private PacienteServiceImpl pacienteService;
 
-    @GetMapping
-    public Paciente salvar(@RequestParam(value = "id") Integer id,
-                           @RequestParam(value = "nome") String nome,
-                           @RequestParam(value = "sobrenome") String sobrenome,
-                           @RequestParam(value = "idEndereco") Integer idEndereco,
-                           @RequestParam(value = "rg") String rg,
-                           @RequestParam(value = "dataDeAlta") String dataDeAlta) {
-        return pacienteService.salvar(new Paciente(id, nome, sobrenome, idEndereco, rg, dataDeAlta));
-    }
+    @PostMapping
+    public ResponseEntity<PacienteDTO> create(@RequestParam PacienteDTO pacienteDTO) {
+        ResponseEntity responseEntity = null;
 
-    @GetMapping("/buscar")
-    public List<Paciente> buscarTodos() {
-        return pacienteService.buscarTodos();
+        if (pacienteDTO.getNome() != null) {
+            PacienteDTO pacienteDTO1 = pacienteService.create(pacienteDTO);
+            responseEntity = new ResponseEntity(pacienteDTO1, HttpStatus.OK);
+        } else {
+            responseEntity = new ResponseEntity("Nome não preenchido", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @GetMapping("/{id}")
-    public String excluir(@RequestParam Integer id) {
-        return pacienteService.excluir(id);
+    public ResponseEntity<PacienteDTO> getById(@PathVariable Integer id) {
+        ResponseEntity responseEntity = null;
+
+        PacienteDTO pacienteDTO = pacienteService.getById(id);
+
+        if (pacienteDTO != null) {
+            responseEntity = new ResponseEntity(pacienteDTO, HttpStatus.OK);
+        } else {
+            responseEntity = new ResponseEntity("Paciente não existente", HttpStatus.BAD_REQUEST);
+        }
+
+        return responseEntity;
     }
+
+    @GetMapping
+    public List<PacienteDTO> getAll() {
+        return pacienteService.getAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete (@PathVariable int id) {
+        return pacienteService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public PacienteDTO update(@RequestBody PacienteDTO pacienteDTO, @PathVariable int id) {
+        return pacienteService.update(pacienteDTO, id);
+    }
+
+
 }

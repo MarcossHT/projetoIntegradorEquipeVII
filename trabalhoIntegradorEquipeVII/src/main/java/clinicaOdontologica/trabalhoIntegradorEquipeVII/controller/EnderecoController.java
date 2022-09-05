@@ -1,8 +1,12 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
+
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.EnderecoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,23 +18,47 @@ public class EnderecoController {
     @Autowired
     private EnderecoServiceImpl enderecoService;
 
-    @GetMapping
-    public Endereco salvar(@RequestParam(value = "id") Integer id,
-                           @RequestParam(value = "rua") String rua,
-                           @RequestParam(value = "numero") String numero,
-                           @RequestParam(value = "bairro") String bairro,
-                           @RequestParam(value = "cidade") String cidade,
-                           @RequestParam(value = "estado") String estado) {
-        return enderecoService.salvar(new Endereco(id, rua, numero, bairro, cidade, estado));
-    }
 
-    @GetMapping("/buscar")
-    public List<Endereco> buscarTodos() {
-        return enderecoService.buscarTodos();
+    @PostMapping
+    public ResponseEntity<EnderecoDTO> create(@RequestParam EnderecoDTO enderecoDTO) {
+        ResponseEntity responseEntity = null;
+
+        if (enderecoDTO.getRua() != null) {
+            EnderecoDTO enderecoDTO1 = enderecoService.create(enderecoDTO);
+            responseEntity = new ResponseEntity(enderecoDTO1, HttpStatus.OK);
+        } else {
+            responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
+        }
+
+        return responseEntity;
     }
 
     @GetMapping("/{id}")
-   public String excluir(@PathVariable Integer id) {
-        return enderecoService.excluir(id);
+    public ResponseEntity<EnderecoDTO> getById(@PathVariable Integer id) {
+        ResponseEntity responseEntity = null;
+
+        EnderecoDTO enderecoDTO = enderecoService.getById(id);
+
+        if (enderecoDTO != null) {
+            responseEntity = new ResponseEntity(enderecoDTO, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Endereco não existente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
+    }
+
+    @GetMapping
+    public List<EnderecoDTO> getAll() {
+        return enderecoService.getAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete (@PathVariable int id) {
+        return enderecoService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public EnderecoDTO update(@RequestBody EnderecoDTO enderecoDTO, @PathVariable int id) {
+        return enderecoService.update(enderecoDTO, id);
     }
 }
