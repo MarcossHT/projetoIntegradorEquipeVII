@@ -40,24 +40,45 @@ public class DentistaController {
         if (dentistaDTO != null) {
             responseEntity = new ResponseEntity(dentistaDTO, HttpStatus.OK);
         }else {
-            responseEntity = new ResponseEntity("Dentista não existente", HttpStatus.BAD_REQUEST);
+            responseEntity = new ResponseEntity("Dentista inexistente", HttpStatus.BAD_REQUEST);
         }
 
         return responseEntity;
     }
 
     @GetMapping
-    public List<DentistaDTO> getAll() {
-        return dentistaService.getAll();
+    public ResponseEntity<DentistaDTO> getAll() {
+        ResponseEntity responseEntity = null;
+        List <DentistaDTO> dentistaList=  dentistaService.getAll();
+        if (dentistaList != null) {
+            responseEntity = new ResponseEntity(dentistaList, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Lista de dentistas inexistente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @DeleteMapping("/{id}")
-    public String delete (@PathVariable int id) {
-        return dentistaService.delete(id);
+    public ResponseEntity<String> delete (@PathVariable int id) {
+        ResponseEntity responseEntity = null;
+        String deleteId = dentistaService.delete(id);
+        if (deleteId != null) {
+            responseEntity = new ResponseEntity(deleteId, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Não é possível excluir um dentista inexistente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @PutMapping("/{id}")
-    public DentistaDTO update(@RequestBody DentistaDTO dentistaDTO, @PathVariable int id) {
-        return dentistaService.update(dentistaDTO, id);
+    public ResponseEntity<DentistaDTO> update(@RequestBody DentistaDTO dentistaDTO, @PathVariable int id) {
+        ResponseEntity responseEntity = null;
+        DentistaDTO dentistaUpdate = dentistaService.update(dentistaDTO, id);
+        if (dentistaUpdate != null) {
+            responseEntity = new ResponseEntity(dentistaUpdate, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Atualização não realizada! Dados inexistentes", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 }

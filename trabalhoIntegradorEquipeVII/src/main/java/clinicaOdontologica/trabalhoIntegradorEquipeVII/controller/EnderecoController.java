@@ -48,17 +48,38 @@ public class EnderecoController {
     }
 
     @GetMapping
-    public List<EnderecoDTO> getAll() {
-        return enderecoService.getAll();
+    public ResponseEntity<EnderecoDTO> getAll() {
+        ResponseEntity responseEntity = null;
+        List <EnderecoDTO> enderecoList=  enderecoService.getAll();
+        if (enderecoList != null) {
+            responseEntity = new ResponseEntity(enderecoList, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Lista de endereços inexistente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @DeleteMapping("/{id}")
-    public String delete (@PathVariable int id) {
-        return enderecoService.delete(id);
+    public ResponseEntity<String> delete (@PathVariable int id) {
+        ResponseEntity responseEntity = null;
+        String deleteId = enderecoService.delete(id);
+        if (deleteId != null) {
+            responseEntity = new ResponseEntity(deleteId, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Não é possível excluir um endereço inexistente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @PutMapping("/{id}")
-    public EnderecoDTO update(@RequestBody EnderecoDTO enderecoDTO, @PathVariable int id) {
-        return enderecoService.update(enderecoDTO, id);
+    public ResponseEntity<EnderecoDTO> update(@RequestBody EnderecoDTO enderecoDTO, @PathVariable int id) {
+        ResponseEntity responseEntity = null;
+        EnderecoDTO enderecoUpdate = enderecoService.update(enderecoDTO, id);
+        if (enderecoUpdate != null) {
+            responseEntity = new ResponseEntity(enderecoUpdate, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Atualização não realizada! Dados inexistentes", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 }
