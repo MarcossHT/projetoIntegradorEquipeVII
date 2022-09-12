@@ -3,6 +3,8 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
 
 public class EnderecoDTO {
+
+    private Integer id;
     private String rua;
     private String numero;
     private String bairro;
@@ -18,6 +20,10 @@ public class EnderecoDTO {
     }
 
     public EnderecoDTO() {
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getRua() {
