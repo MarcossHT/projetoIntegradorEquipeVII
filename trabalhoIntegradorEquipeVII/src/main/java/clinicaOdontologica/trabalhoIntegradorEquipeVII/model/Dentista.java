@@ -1,28 +1,35 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "Dentistas")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Dentista {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "Nome", nullable = false)
     private String nome;
-
+    @Column(name = "Sobrenome", nullable = false)
     private String sobrenome;
+    @Column(name = "matriculaCadastro",unique = true, nullable = false)
     private String matriculaCadastro;
 
-    public Dentista(Integer id, String nome, String sobrenome, String matriculaCadastro) {
-        this.id = id;
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.matriculaCadastro = matriculaCadastro;
-    }
-
-    public Dentista(String nome, String sobrenome, String matriculaCadastro) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.matriculaCadastro = matriculaCadastro;
+    @OneToMany(mappedBy = "dentista", fetch = FetchType.LAZY, targetEntity = Consulta.class)
+    @JsonIgnore
+    private List<Consulta> consultaList = new ArrayList<>();
+    public Dentista() {
     }
 
     public Dentista(DentistaDTO dentistaDTO) {
+        this.id = dentistaDTO.getId();
         this.nome = dentistaDTO.getNome();
         this.sobrenome = dentistaDTO.getSobrenome();
         this.matriculaCadastro = dentistaDTO.getMatriculaCadastro();
@@ -30,10 +37,6 @@ public class Dentista {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -58,5 +61,9 @@ public class Dentista {
 
     public void setMatriculaCadastro(String matriculaCadastro) {
         this.matriculaCadastro = matriculaCadastro;
+    }
+
+    public List<Consulta> getConsultaList() {
+        return consultaList;
     }
 }

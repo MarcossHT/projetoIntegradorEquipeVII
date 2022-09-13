@@ -1,32 +1,41 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "Pacientes")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Paciente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "nome", nullable = false)
     private String nome;
+    @Column(name = "sobrenome", nullable = false)
     private String sobrenome;
-    private Integer idEndereco;
+    @Column(name = "rg", nullable = false)
     private String rg;
+    @Column(name = "dataDeAlta", nullable = false)
     private String dataDeAlta;
 
-    public Paciente(Integer id, String nome, String sobrenome, Integer idEndereco, String rg, String dataDeAlta) {
-        this.id = id;
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.idEndereco = idEndereco;
-        this.rg = rg;
-        this.dataDeAlta = dataDeAlta;
-    }
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "endereco_id")
+    private Endereco endereco;
 
-    public Paciente(String nome, String sobrenome, String rg, String dataDeAlta) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.rg = rg;
-        this.dataDeAlta = dataDeAlta;
-    }
+    @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY, targetEntity = Consulta.class)
+    @JsonIgnore
+    private List<Consulta> consultaList = new ArrayList<>();
+
+    public Paciente(){}
 
     public Paciente(PacienteDTO pacienteDTO) {
+        this.id = pacienteDTO.getId();
         this.nome = pacienteDTO.getNome();
         this.sobrenome = pacienteDTO.getSobrenome();
         this.rg = pacienteDTO.getRg();
@@ -35,10 +44,6 @@ public class Paciente {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -57,14 +62,6 @@ public class Paciente {
         this.sobrenome = sobrenome;
     }
 
-    public Integer getIdEndereco() {
-        return idEndereco;
-    }
-
-    public void setIdEndereco(Integer idEndereco) {
-        this.idEndereco = idEndereco;
-    }
-
     public String getRg() {
         return rg;
     }
@@ -79,5 +76,16 @@ public class Paciente {
 
     public void setDataDeAlta(String dataDeAlta) {
         this.dataDeAlta = dataDeAlta;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+    public List<Consulta> getConsultaList() {
+        return consultaList;
     }
 }
