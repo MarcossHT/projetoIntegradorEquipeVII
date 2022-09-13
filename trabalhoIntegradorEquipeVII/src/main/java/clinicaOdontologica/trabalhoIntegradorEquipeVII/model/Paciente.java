@@ -19,7 +19,7 @@ public class Paciente {
     private String nome;
     @Column(name = "sobrenome", nullable = false)
     private String sobrenome;
-    @Column(name = "rg", nullable = false)
+    @Column(name = "rg", unique = true, nullable = false)
     private String rg;
     @Column(name = "dataDeAlta", nullable = false)
     private String dataDeAlta;
@@ -28,11 +28,14 @@ public class Paciente {
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
+
     @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY, targetEntity = Consulta.class)
     @JsonIgnore
     private List<Consulta> consultaList = new ArrayList<>();
 
-    public Paciente(){}
+    public Paciente() {
+
+    }
 
     public Paciente(PacienteDTO pacienteDTO) {
         this.id = pacienteDTO.getId();
@@ -41,6 +44,7 @@ public class Paciente {
         this.rg = pacienteDTO.getRg();
         this.dataDeAlta = pacienteDTO.getDataDeAlta();
     }
+
 
     public Integer getId() {
         return id;
@@ -78,6 +82,10 @@ public class Paciente {
         this.dataDeAlta = dataDeAlta;
     }
 
+    public List<Consulta> getConsultaList() {
+        return consultaList;
+    }
+
     public Endereco getEndereco() {
         return endereco;
     }
@@ -85,7 +93,5 @@ public class Paciente {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-    public List<Consulta> getConsultaList() {
-        return consultaList;
-    }
+
 }

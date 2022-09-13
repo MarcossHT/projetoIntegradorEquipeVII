@@ -11,6 +11,7 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,22 +59,11 @@ public class ConsultaServiceImpl implements IService<ConsultaDTO> {
 
     }
 
-    /*private int getDentistaId(Consulta consulta) {
-        int dentistaIdConsulta = consulta.getIdDentista();
-        int dentistaId = dentistaService.getIdDentista(dentistaIdConsulta);
-        return dentistaId;
-    }
 
-    private int getPacienteId(Consulta consulta) {
-        int pacienteIdPaciente = consulta.getIdPaciente();
-        int enderecoId = pacienteService.getIdPaciente(pacienteIdPaciente);
-        return enderecoId;
-    }*/
 
     @Override
     public String delete(int id) {
-        /*return consultaRepository.delete(id);*/
-        return null;
+        return " ";
     }
 
     @Override
@@ -90,15 +80,13 @@ public class ConsultaServiceImpl implements IService<ConsultaDTO> {
         consulta.setId(id);
 
         if(consulta.getIdDentista() != 0 && consulta.getIdPaciente() != 0)
-            consultaRepository.create(consulta);
-        return consultaDTO;*/
+            consultaRepository.create(consulta);*/
         return null;
     }
 
     @Override
     public List<ConsultaDTO> getAll() {
-        /*
-        List<Consulta> consultaList = consultaRepository.getAll();
+        /*List<Consulta> consultaList = consultaRepository.getAll();
         List<ConsultaDTO> consultaDTOS = new ArrayList<>();
 
         for(Consulta consulta: consultaList){
@@ -108,8 +96,7 @@ public class ConsultaServiceImpl implements IService<ConsultaDTO> {
             consultaDTO.setIdDentista(dentistaIdConsulta);
             consultaDTO.setIdPaciente(pacienteIdConsulta);
             consultaDTOS.add(consultaDTO);
-        }
-        return consultaDTOS;*/
+        }*/
         return null;
     }
 }

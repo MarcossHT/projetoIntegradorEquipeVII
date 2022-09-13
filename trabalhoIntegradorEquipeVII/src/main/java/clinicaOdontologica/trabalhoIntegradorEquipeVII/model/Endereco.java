@@ -30,7 +30,11 @@ public class Endereco {
     @JsonIgnore
     private List<Paciente> pacienteList = new ArrayList<>();
 
-    public Endereco(){}
+
+    public Endereco() {
+
+    }
+
     public Endereco(EnderecoDTO enderecoDTO) {
         this.id = enderecoDTO.getId();
         this.rua = enderecoDTO.getRua();
@@ -42,6 +46,10 @@ public class Endereco {
 
     public Integer getId() {
         return id;
+    }
+
+    public List<Paciente> getPacienteList() {
+        return pacienteList;
     }
 
     public String getRua() {
@@ -82,8 +90,5 @@ public class Endereco {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-    public List<Paciente> getPacienteList() {
-        return pacienteList;
     }
 }

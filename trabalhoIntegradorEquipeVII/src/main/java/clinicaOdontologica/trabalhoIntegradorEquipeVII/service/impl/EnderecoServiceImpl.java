@@ -7,6 +7,7 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +19,8 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
     @Override
     public EnderecoDTO create(EnderecoDTO enderecoDTO) {
         Endereco endereco = new Endereco(enderecoDTO);
-        endereco = enderecoRepository.save(endereco);
-        enderecoDTO = new EnderecoDTO(endereco);
+       endereco = enderecoRepository.save(endereco);
+       enderecoDTO = new EnderecoDTO(endereco);
         return enderecoDTO;
     }
 
@@ -29,41 +30,27 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
         return new EnderecoDTO(endereco);
     }
 
-    /*public int getIdEndereco(int id) {
-        return enderecoRepository.getId(id);
-    }*/
+
 
 
     @Override
     public String delete(int id) {
-        /*return enderecoRepository.delete(id);*/
         return null;
     }
 
     @Override
     public EnderecoDTO update(EnderecoDTO enderecoDTO, int id) {
-        /*Endereco endereco = new Endereco(enderecoDTO);
-        endereco.setId(id);
 
-        if (endereco.getId() != 0)
-            enderecoRepository.create(endereco);
-        return enderecoDTO;*/
         return null;
+    }
+
+    public boolean ifEnderecoExists(int id) {
+        return enderecoRepository.existsById(id);
     }
 
     @Override
     public List<EnderecoDTO> getAll() {
-        /*List<Endereco> enderecoList = enderecoRepository.getAll();
-        List<EnderecoDTO> enderecoDTOS = new ArrayList<>();
 
-        for (Endereco endereco : enderecoList) {
-            EnderecoDTO enderecoDTO = new EnderecoDTO(endereco);
-            enderecoDTOS.add(enderecoDTO);
-        }
-        return enderecoDTOS;*/
         return null;
-    }
-    public boolean ifEnderecoExists(int id) {
-        return enderecoRepository.existsById(id);
     }
 }

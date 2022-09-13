@@ -2,6 +2,7 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
+
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IPacienteRepository;
@@ -19,6 +20,7 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
 
     @Autowired
     private EnderecoServiceImpl enderecoService;
+
 
     @Override
     public PacienteDTO create(PacienteDTO pacienteDTO) {
@@ -44,12 +46,16 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
         return pacienteDTO;
     }
 
-    @Override
-    public String delete(int id) {
-        /*return pacienteRepository.delete(id);*/
-        return null;
+
+    public boolean ifPacienteExists(int id) {
+        return pacienteRepository.existsById(id);
     }
 
+
+    @Override
+    public String delete(int id) {
+        return " ";
+    }
 
     @Override
     public PacienteDTO update(PacienteDTO pacienteDTO, int id) {
@@ -60,8 +66,7 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
         paciente.setId(id);
 
         if(paciente.getIdEndereco() != 0)
-            pacienteRepository.create(paciente);
-        return pacienteDTO;*/
+            pacienteRepository.create(paciente);*/
         return null;
     }
 
@@ -75,12 +80,8 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
             PacienteDTO pacienteDTO = new PacienteDTO(paciente);
             pacienteDTO.setIdEndereco(enderecoIdPaciente);
             pacienteDTOS.add(pacienteDTO);
-        }
-        return pacienteDTOS;*/
+        }*/
         return null;
-    }
 
-    public boolean ifPacienteExists(int id) {
-        return pacienteRepository.existsById(id);
     }
 }

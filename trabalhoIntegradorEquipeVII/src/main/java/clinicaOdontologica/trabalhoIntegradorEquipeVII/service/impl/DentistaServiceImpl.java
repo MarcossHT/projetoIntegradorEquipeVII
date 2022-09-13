@@ -3,11 +3,11 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IDentistaRepository;
-
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,16 +32,11 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
 
     /*public Integer getByName(String name) {
         return dentistaRepository.getByName(name);
-        return null;
     }*/
 
-    /*public int getIdDentista(int id) {
-        return dentistaRepository.getId(id);
-    }*/
 
     @Override
     public String delete(int id) {
-        /*return dentistaRepository.delete(id);*/
         return null;
     }
 
@@ -51,10 +46,14 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
         dentista.setId(id);
 
         if(dentista.getId() != 0)
-            dentistaRepository.create(dentista);
+            dentistaRepository.create(dentista);*/
 
-        return dentistaDTO;*/
         return null;
+
+    }
+
+    public boolean ifDentistaExists(int id) {
+        return dentistaRepository.existsById(id);
     }
 
     @Override
@@ -65,12 +64,8 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
         for(Dentista dentista: dentistaList) {
             DentistaDTO dentistaDTO = new DentistaDTO(dentista);
             dentistaDTOS.add(dentistaDTO);
-        }
-        return dentistaDTOS;*/
+        }*/
         return null;
-    }
-    public boolean ifDentistaExists(int id) {
-        return dentistaRepository.existsById(id);
     }
 }
 
