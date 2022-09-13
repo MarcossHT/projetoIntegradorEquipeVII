@@ -2,6 +2,7 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.PacienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,19 +48,38 @@ public class PacienteController {
     }
 
     @GetMapping
-    public List<PacienteDTO> getAll() {
-        return pacienteService.getAll();
+    public ResponseEntity<PacienteDTO> getAll() {
+        ResponseEntity responseEntity = null;
+        List <PacienteDTO> pacienteList=  pacienteService.getAll();
+        if (pacienteList != null) {
+            responseEntity = new ResponseEntity(pacienteList, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Lista de pacientes inexistente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @DeleteMapping("/{id}")
-    public String delete (@PathVariable int id) {
-        return pacienteService.delete(id);
+    public ResponseEntity<String> delete (@PathVariable int id) {
+        ResponseEntity responseEntity = null;
+        String deleteId = pacienteService.delete(id);
+        if (deleteId != null) {
+            responseEntity = new ResponseEntity(deleteId, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Não é possível excluir um paciente inexistente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @PutMapping("/{id}")
-    public PacienteDTO update(@RequestBody PacienteDTO pacienteDTO, @PathVariable int id) {
-        return pacienteService.update(pacienteDTO, id);
+    public ResponseEntity<PacienteDTO> update(@RequestBody PacienteDTO pacienteDTO, @PathVariable int id) {
+        ResponseEntity responseEntity = null;
+        PacienteDTO pacienteUpdate = pacienteService.update(pacienteDTO, id);
+        if (pacienteUpdate != null) {
+            responseEntity = new ResponseEntity(pacienteUpdate, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Atualização não realizada! Dados inexistentes", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
-
-
 }

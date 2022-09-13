@@ -1,33 +1,38 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "Enderecos")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Endereco {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "rua", nullable = false)
     private String rua;
+    @Column(name = "numero", nullable = false)
     private String numero;
+    @Column(name = "bairro", nullable = false)
     private String bairro;
+    @Column(name = "cidade", nullable = false)
     private String cidade;
+    @Column(name = "estado", nullable = false)
     private String estado;
 
-    public Endereco(Integer id, String rua, String numero, String bairro, String cidade, String estado) {
-        this.id = id;
-        this.rua = rua;
-        this.numero = numero;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-    }
+    @OneToMany(mappedBy = "endereco", fetch = FetchType.LAZY, targetEntity = Paciente.class)
+    @JsonIgnore
+    private List<Paciente> pacienteList = new ArrayList<>();
 
-    public Endereco(String rua, String numero, String bairro, String cidade, String estado) {
-        this.rua = rua;
-        this.numero = numero;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-    }
-
+    public Endereco(){}
     public Endereco(EnderecoDTO enderecoDTO) {
+        this.id = enderecoDTO.getId();
         this.rua = enderecoDTO.getRua();
         this.numero = enderecoDTO.getNumero();
         this.bairro = enderecoDTO.getBairro();
@@ -37,10 +42,6 @@ public class Endereco {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getRua() {
@@ -81,5 +82,8 @@ public class Endereco {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    public List<Paciente> getPacienteList() {
+        return pacienteList;
     }
 }

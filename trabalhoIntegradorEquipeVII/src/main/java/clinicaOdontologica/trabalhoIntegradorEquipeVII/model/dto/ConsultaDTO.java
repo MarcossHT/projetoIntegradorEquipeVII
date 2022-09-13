@@ -3,15 +3,22 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Consulta;
 
 public class ConsultaDTO {
+    private Integer id;
     private String data;
     private Integer idDentista;
-    private Integer IdPaciente;
+
+    private Integer idPaciente;
+
+    public ConsultaDTO() {
+    }
 
     public ConsultaDTO(Consulta consulta) {
+        this.id = consulta.getId();
         this.data = consulta.getData();
     }
 
-    public ConsultaDTO() {
+    public Integer getId() {
+        return id;
     }
 
     public String getData() {
@@ -31,10 +38,10 @@ public class ConsultaDTO {
     }
 
     public Integer getIdPaciente() {
-        return IdPaciente;
+        return idPaciente;
     }
 
     public void setIdPaciente(Integer idPaciente) {
-        IdPaciente = idPaciente;
+        this.idPaciente = idPaciente;
     }
 }

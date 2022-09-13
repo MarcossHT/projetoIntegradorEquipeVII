@@ -39,24 +39,45 @@ public class ConsultaController {
         if (consultaDTO != null) {
             responseEntity = new ResponseEntity(consultaDTO, HttpStatus.OK);
         }else {
-            responseEntity = new ResponseEntity("Consulta não existente", HttpStatus.BAD_REQUEST);
+            responseEntity = new ResponseEntity("Consulta inexistente", HttpStatus.BAD_REQUEST);
         }
         return responseEntity;
 
     }
 
     @GetMapping
-    public List<ConsultaDTO> getAll() {
-        return consultaService.getAll();
+    public ResponseEntity<ConsultaDTO> getAll() {
+        ResponseEntity responseEntity = null;
+        List <ConsultaDTO> consultaList=  consultaService.getAll();
+        if (consultaList != null) {
+            responseEntity = new ResponseEntity(consultaList, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Lista de consultas inexistente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @DeleteMapping("/{id}")
-    public String delete (@PathVariable int id) {
-        return consultaService.delete(id);
+    public ResponseEntity<String> delete (@PathVariable int id) {
+        ResponseEntity responseEntity = null;
+        String deleteId = consultaService.delete(id);
+        if (deleteId != null) {
+            responseEntity = new ResponseEntity(deleteId, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Não é possível excluir uma consulta inexistente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
     @PutMapping("/{id}")
-    public ConsultaDTO update(@RequestBody ConsultaDTO consultaDTO, @PathVariable int id) {
-        return consultaService.update(consultaDTO, id);
+    public ResponseEntity<ConsultaDTO> update(@RequestBody ConsultaDTO consultaDTO, @PathVariable int id) {
+        ResponseEntity responseEntity = null;
+        ConsultaDTO consultaUpdate = consultaService.update(consultaDTO, id);
+        if (consultaUpdate != null) {
+            responseEntity = new ResponseEntity(consultaUpdate, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Atualização não realizada! Dados inexistentes", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 }

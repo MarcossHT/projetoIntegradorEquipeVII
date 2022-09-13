@@ -1,29 +1,35 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.ConsultaDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Consultas")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Consulta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "data", nullable = false)
     private String data;
-    private Integer idDentista;
-    private Integer IdPaciente;
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "dentista_id")
+    private Dentista dentista;
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
 
-    public Consulta(String data, Integer idDentista, Integer idPaciente) {
-        this.data = data;
-        this.idDentista = idDentista;
-        IdPaciente = idPaciente;
-    }
+    public Consulta(){}
 
     public Consulta(ConsultaDTO consultaDTO) {
+        this.id = consultaDTO.getId();
         this.data = consultaDTO.getData();
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getData() {
@@ -34,19 +40,19 @@ public class Consulta {
         this.data = data;
     }
 
-    public Integer getIdDentista() {
-        return idDentista;
+    public Dentista getDentista() {
+        return dentista;
     }
 
-    public void setIdDentista(Integer idDentista) {
-        this.idDentista = idDentista;
+    public void setDentista(Dentista dentista) {
+        this.dentista = dentista;
     }
 
-    public Integer getIdPaciente() {
-        return IdPaciente;
+    public Paciente getPaciente() {
+        return paciente;
     }
 
-    public void setIdPaciente(Integer idPaciente) {
-        IdPaciente = idPaciente;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 }
