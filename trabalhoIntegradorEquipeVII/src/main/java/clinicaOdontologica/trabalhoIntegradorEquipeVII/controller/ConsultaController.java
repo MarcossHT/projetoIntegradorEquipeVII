@@ -19,44 +19,56 @@ public class ConsultaController {
     @PostMapping
     public ResponseEntity<ConsultaDTO> create(@RequestParam ConsultaDTO consultaDTO) {
         ResponseEntity responseEntity = null;
-
         if (consultaDTO.getData() != null) {
             ConsultaDTO consultaDTO1  = consultaService.create(consultaDTO);
             responseEntity = new ResponseEntity(consultaDTO1, HttpStatus.OK);
         } else {
             responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
         }
-
         return responseEntity;
     }
-
-     @GetMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ConsultaDTO> getById(@PathVariable int id) {
         ResponseEntity responseEntity = null;
-
         ConsultaDTO consultaDTO = consultaService.getById(id);
-
         if (consultaDTO != null) {
             responseEntity = new ResponseEntity(consultaDTO, HttpStatus.OK);
         }else {
             responseEntity = new ResponseEntity("Consulta não existente", HttpStatus.BAD_REQUEST);
         }
         return responseEntity;
-
     }
-
     @GetMapping
-    public List<ConsultaDTO> getAll() {
-        return consultaService.getAll();
+    public ResponseEntity<List<ConsultaDTO>> getAll() {
+        ResponseEntity responseEntity = null;
+        List <ConsultaDTO> consultaList=  consultaService.getAll();
+        if (consultaList != null) {
+            responseEntity = new ResponseEntity(consultaList, HttpStatus.NOT_FOUND);
+        }else {
+            responseEntity = new ResponseEntity("Lista de consultas indisponível", HttpStatus.NOT_FOUND);
+        }
+        return responseEntity;
     }
-
     @DeleteMapping("/{id}")
-    public String delete (@PathVariable int id) {
-        return consultaService.delete(id);
+    public ResponseEntity<String> delete (@PathVariable int id) {
+        ResponseEntity responseEntity = null;
+        String deleteId = consultaService.delete(id);
+        if (deleteId != null) {
+            responseEntity = new ResponseEntity(deleteId, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Não é possível excluir uma consulta inexistente", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
-
     @PutMapping("/{id}")
-    public ConsultaDTO update(@RequestBody ConsultaDTO consultaDTO, @PathVariable int id) {
-        return consultaService.update(consultaDTO, id);
+    public ResponseEntity<ConsultaDTO> update(@RequestBody ConsultaDTO consultaDTO) {
+        ResponseEntity responseEntity = null;
+        ConsultaDTO consultaUpdate = consultaService.update(consultaDTO);
+        if (consultaUpdate != null) {
+            responseEntity = new ResponseEntity(consultaUpdate, HttpStatus.OK);
+        }else {
+            responseEntity = new ResponseEntity("Atualização não realizada! Dados inexistentes", HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 }

@@ -30,42 +30,36 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
         return new DentistaDTO(dentista);
     }
 
-    /*public Integer getByName(String name) {
-        return dentistaRepository.getByName(name);
-    }*/
-
+    public DentistaDTO getByNome(String nome) {
+        Dentista dentista = dentistaRepository.findByNome(nome);
+        DentistaDTO dentistaDTO = new DentistaDTO(dentista);
+        return dentistaDTO;
+    }
 
     @Override
     public String delete(int id) {
-        return null;
+        dentistaRepository.deleteById(id);
+        return "Dentista deletado " + id;
     }
 
     @Override
-    public DentistaDTO update(DentistaDTO dentistaDTO, int id) {
-        /*Dentista dentista = new Dentista(dentistaDTO);
-        dentista.setId(id);
-
-        if(dentista.getId() != 0)
-            dentistaRepository.create(dentista);*/
-
-        return null;
-
+    public DentistaDTO update(DentistaDTO dentistaDTO) {
+        Dentista dentista = new Dentista(dentistaDTO);
+        dentistaRepository.saveAndFlush(dentista);
+        return dentistaDTO;
     }
-
-    public boolean ifDentistaExists(int id) {
-        return dentistaRepository.existsById(id);
-    }
-
     @Override
     public List<DentistaDTO> getAll() {
-        /*List<Dentista> dentistaList = dentistaRepository.getAll();
-        List<DentistaDTO> dentistaDTOS = new ArrayList<>();
-
-        for(Dentista dentista: dentistaList) {
+        List<Dentista> dentistaList = dentistaRepository.findAll();
+        List<DentistaDTO> dentistaDTOList = new ArrayList<>();
+        for (Dentista dentista : dentistaList) {
             DentistaDTO dentistaDTO = new DentistaDTO(dentista);
-            dentistaDTOS.add(dentistaDTO);
-        }*/
-        return null;
+            dentistaDTOList.add(dentistaDTO);
+        }
+        return dentistaDTOList;
+    }
+    public boolean ifDentistaExists(int id) {
+        return dentistaRepository.existsById(id);
     }
 }
 

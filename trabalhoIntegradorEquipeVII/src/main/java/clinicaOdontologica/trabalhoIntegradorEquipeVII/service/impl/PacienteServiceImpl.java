@@ -1,8 +1,10 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
 
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
 
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IPacienteRepository;
@@ -10,6 +12,7 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +23,6 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
 
     @Autowired
     private EnderecoServiceImpl enderecoService;
-
 
     @Override
     public PacienteDTO create(PacienteDTO pacienteDTO) {
@@ -46,42 +48,35 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
         return pacienteDTO;
     }
 
-
-    public boolean ifPacienteExists(int id) {
-        return pacienteRepository.existsById(id);
+    public PacienteDTO getByNome(String nome) {
+        Paciente paciente = pacienteRepository.findByNome(nome);
+        PacienteDTO pacienteDTO = new PacienteDTO(paciente);
+        return pacienteDTO;
     }
-
 
     @Override
     public String delete(int id) {
-        return " ";
+        pacienteRepository.deleteById(id);
+        return "Paciente deletado " + id;
     }
 
     @Override
-    public PacienteDTO update(PacienteDTO pacienteDTO, int id) {
-        /*Paciente paciente = new Paciente(pacienteDTO);
-        int enderecoIdPaciente = pacienteDTO.getIdEndereco();
-        int enderecoId = enderecoService.getIdEndereco(enderecoIdPaciente);
-        paciente.setIdEndereco(enderecoId);
-        paciente.setId(id);
-
-        if(paciente.getIdEndereco() != 0)
-            pacienteRepository.create(paciente);*/
-        return null;
+    public PacienteDTO update(PacienteDTO pacienteDTO) {
+        Paciente paciente = new Paciente(pacienteDTO);
+        pacienteRepository.saveAndFlush(paciente);
+        return pacienteDTO;
     }
-
     @Override
     public List<PacienteDTO> getAll() {
-        /*List<Paciente> pacienteList = pacienteRepository.getAll();
-        List<PacienteDTO> pacienteDTOS = new ArrayList<>();
-
-        for(Paciente paciente: pacienteList){
-            int enderecoIdPaciente = getEnderecoId(paciente);
+        List<Paciente> pacienteList = pacienteRepository.findAll();
+        List<PacienteDTO> pacienteDTOList = new ArrayList<>();
+        for (Paciente paciente : pacienteList) {
             PacienteDTO pacienteDTO = new PacienteDTO(paciente);
-            pacienteDTO.setIdEndereco(enderecoIdPaciente);
-            pacienteDTOS.add(pacienteDTO);
-        }*/
-        return null;
-
+            pacienteDTOList.add(pacienteDTO);
+        }
+        return pacienteDTOList;
+    }
+    public boolean ifPacienteExists(int id) {
+        return pacienteRepository.existsById(id);
     }
 }

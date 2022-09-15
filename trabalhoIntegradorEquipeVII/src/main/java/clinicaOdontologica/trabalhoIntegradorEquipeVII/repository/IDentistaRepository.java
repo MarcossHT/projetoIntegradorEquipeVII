@@ -4,4 +4,6 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IDentistaRepository extends JpaRepository<Dentista, Integer> {
+    //Hibernate
+    Dentista findByNome(String nome);
 }
