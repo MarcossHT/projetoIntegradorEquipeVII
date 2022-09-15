@@ -3,11 +3,11 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IDentistaRepository;
-
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,44 +30,33 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
         return new DentistaDTO(dentista);
     }
 
-    /*public Integer getByName(String name) {
-        return dentistaRepository.getByName(name);
-        return null;
-    }*/
-
-    /*public int getIdDentista(int id) {
-        return dentistaRepository.getId(id);
-    }*/
+    public DentistaDTO getByNome(String nome) {
+        Dentista dentista = dentistaRepository.findByNome(nome);
+        DentistaDTO dentistaDTO = new DentistaDTO(dentista);
+        return dentistaDTO;
+    }
 
     @Override
     public String delete(int id) {
-        /*return dentistaRepository.delete(id);*/
-        return null;
+        dentistaRepository.deleteById(id);
+        return "Dentista deletado " + id;
     }
 
     @Override
-    public DentistaDTO update(DentistaDTO dentistaDTO, int id) {
-        /*Dentista dentista = new Dentista(dentistaDTO);
-        dentista.setId(id);
-
-        if(dentista.getId() != 0)
-            dentistaRepository.create(dentista);
-
-        return dentistaDTO;*/
-        return null;
+    public DentistaDTO update(DentistaDTO dentistaDTO) {
+        Dentista dentista = new Dentista(dentistaDTO);
+        dentistaRepository.saveAndFlush(dentista);
+        return dentistaDTO;
     }
-
     @Override
     public List<DentistaDTO> getAll() {
-        /*List<Dentista> dentistaList = dentistaRepository.getAll();
-        List<DentistaDTO> dentistaDTOS = new ArrayList<>();
-
-        for(Dentista dentista: dentistaList) {
+        List<Dentista> dentistaList = dentistaRepository.findAll();
+        List<DentistaDTO> dentistaDTOList = new ArrayList<>();
+        for (Dentista dentista : dentistaList) {
             DentistaDTO dentistaDTO = new DentistaDTO(dentista);
-            dentistaDTOS.add(dentistaDTO);
+            dentistaDTOList.add(dentistaDTO);
         }
-        return dentistaDTOS;*/
-        return null;
+        return dentistaDTOList;
     }
     public boolean ifDentistaExists(int id) {
         return dentistaRepository.existsById(id);

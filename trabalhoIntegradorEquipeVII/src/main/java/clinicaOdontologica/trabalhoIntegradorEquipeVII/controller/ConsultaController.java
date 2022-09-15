@@ -19,44 +19,36 @@ public class ConsultaController {
     @PostMapping
     public ResponseEntity<ConsultaDTO> create(@RequestParam ConsultaDTO consultaDTO) {
         ResponseEntity responseEntity = null;
-
         if (consultaDTO.getData() != null) {
             ConsultaDTO consultaDTO1  = consultaService.create(consultaDTO);
             responseEntity = new ResponseEntity(consultaDTO1, HttpStatus.OK);
         } else {
             responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
         }
-
         return responseEntity;
     }
-
-     @GetMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ConsultaDTO> getById(@PathVariable int id) {
         ResponseEntity responseEntity = null;
-
         ConsultaDTO consultaDTO = consultaService.getById(id);
-
         if (consultaDTO != null) {
             responseEntity = new ResponseEntity(consultaDTO, HttpStatus.OK);
         }else {
-            responseEntity = new ResponseEntity("Consulta inexistente", HttpStatus.BAD_REQUEST);
+            responseEntity = new ResponseEntity("Consulta não existente", HttpStatus.BAD_REQUEST);
         }
         return responseEntity;
-
     }
-
     @GetMapping
-    public ResponseEntity<ConsultaDTO> getAll() {
+    public ResponseEntity<List<ConsultaDTO>> getAll() {
         ResponseEntity responseEntity = null;
         List <ConsultaDTO> consultaList=  consultaService.getAll();
         if (consultaList != null) {
-            responseEntity = new ResponseEntity(consultaList, HttpStatus.OK);
+            responseEntity = new ResponseEntity(consultaList, HttpStatus.NOT_FOUND);
         }else {
-            responseEntity = new ResponseEntity("Lista de consultas inexistente", HttpStatus.BAD_REQUEST);
+            responseEntity = new ResponseEntity("Lista de consultas indisponível", HttpStatus.NOT_FOUND);
         }
         return responseEntity;
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete (@PathVariable int id) {
         ResponseEntity responseEntity = null;
@@ -68,11 +60,10 @@ public class ConsultaController {
         }
         return responseEntity;
     }
-
     @PutMapping("/{id}")
-    public ResponseEntity<ConsultaDTO> update(@RequestBody ConsultaDTO consultaDTO, @PathVariable int id) {
+    public ResponseEntity<ConsultaDTO> update(@RequestBody ConsultaDTO consultaDTO) {
         ResponseEntity responseEntity = null;
-        ConsultaDTO consultaUpdate = consultaService.update(consultaDTO, id);
+        ConsultaDTO consultaUpdate = consultaService.update(consultaDTO);
         if (consultaUpdate != null) {
             responseEntity = new ResponseEntity(consultaUpdate, HttpStatus.OK);
         }else {

@@ -21,23 +21,13 @@ public class Consulta {
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
-    public Consulta(){}
+    public Consulta() {
+
+    }
 
     public Consulta(ConsultaDTO consultaDTO) {
         this.id = consultaDTO.getId();
         this.data = consultaDTO.getData();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 
     public Dentista getDentista() {
@@ -55,4 +45,18 @@ public class Consulta {
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+
 }

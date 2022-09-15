@@ -15,17 +15,22 @@ public class Dentista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "Nome", nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
-    @Column(name = "Sobrenome", nullable = false)
+
+    @Column(name = "sobrenome", nullable = false)
     private String sobrenome;
-    @Column(name = "matriculaCadastro",unique = true, nullable = false)
+    @Column(name = "matriculaCadastro", unique = true, nullable = false)
     private String matriculaCadastro;
 
     @OneToMany(mappedBy = "dentista", fetch = FetchType.LAZY, targetEntity = Consulta.class)
     @JsonIgnore
     private List<Consulta> consultaList = new ArrayList<>();
+
+
+
     public Dentista() {
+
     }
 
     public Dentista(DentistaDTO dentistaDTO) {

@@ -3,6 +3,7 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
 
 public class PacienteDTO {
+
     private Integer id;
     private String nome;
     private String sobrenome;
@@ -22,12 +23,12 @@ public class PacienteDTO {
     public PacienteDTO() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getNome() {
         return nome;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void setNome(String nome) {

@@ -1,12 +1,15 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IEnderecoRepository;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +21,8 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
     @Override
     public EnderecoDTO create(EnderecoDTO enderecoDTO) {
         Endereco endereco = new Endereco(enderecoDTO);
-        endereco = enderecoRepository.save(endereco);
-        enderecoDTO = new EnderecoDTO(endereco);
+       endereco = enderecoRepository.save(endereco);
+       enderecoDTO = new EnderecoDTO(endereco);
         return enderecoDTO;
     }
 
@@ -28,40 +31,26 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
         Endereco endereco = enderecoRepository.findById(id).get();
         return new EnderecoDTO(endereco);
     }
-
-    /*public int getIdEndereco(int id) {
-        return enderecoRepository.getId(id);
-    }*/
-
-
     @Override
     public String delete(int id) {
-        /*return enderecoRepository.delete(id);*/
-        return null;
+        enderecoRepository.deleteById(id);
+        return "Endereco deletado " + id;
     }
-
     @Override
-    public EnderecoDTO update(EnderecoDTO enderecoDTO, int id) {
-        /*Endereco endereco = new Endereco(enderecoDTO);
-        endereco.setId(id);
-
-        if (endereco.getId() != 0)
-            enderecoRepository.create(endereco);
-        return enderecoDTO;*/
-        return null;
+    public EnderecoDTO update(EnderecoDTO enderecoDTO) {
+        Endereco endereco = new Endereco(enderecoDTO);
+        enderecoRepository.saveAndFlush(endereco);
+        return enderecoDTO;
     }
-
     @Override
     public List<EnderecoDTO> getAll() {
-        /*List<Endereco> enderecoList = enderecoRepository.getAll();
-        List<EnderecoDTO> enderecoDTOS = new ArrayList<>();
-
+        List<Endereco> enderecoList = enderecoRepository.findAll();
+        List<EnderecoDTO> enderecoDTOList = new ArrayList<>();
         for (Endereco endereco : enderecoList) {
             EnderecoDTO enderecoDTO = new EnderecoDTO(endereco);
-            enderecoDTOS.add(enderecoDTO);
+            enderecoDTOList.add(enderecoDTO);
         }
-        return enderecoDTOS;*/
-        return null;
+        return enderecoDTOList;
     }
     public boolean ifEnderecoExists(int id) {
         return enderecoRepository.existsById(id);

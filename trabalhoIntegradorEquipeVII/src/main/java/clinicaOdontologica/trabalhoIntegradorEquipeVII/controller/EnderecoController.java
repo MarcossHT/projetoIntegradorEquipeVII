@@ -18,7 +18,6 @@ public class EnderecoController {
     @Autowired
     private EnderecoServiceImpl enderecoService;
 
-
     @PostMapping
     public ResponseEntity<EnderecoDTO> create(@RequestParam EnderecoDTO enderecoDTO) {
         ResponseEntity responseEntity = null;
@@ -32,13 +31,10 @@ public class EnderecoController {
 
         return responseEntity;
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoDTO> getById(@PathVariable Integer id) {
         ResponseEntity responseEntity = null;
-
         EnderecoDTO enderecoDTO = enderecoService.getById(id);
-
         if (enderecoDTO != null) {
             responseEntity = new ResponseEntity(enderecoDTO, HttpStatus.OK);
         }else {
@@ -46,19 +42,17 @@ public class EnderecoController {
         }
         return responseEntity;
     }
-
     @GetMapping
-    public ResponseEntity<EnderecoDTO> getAll() {
+    public ResponseEntity<List<EnderecoDTO>> getAll() {
         ResponseEntity responseEntity = null;
-        List <EnderecoDTO> enderecoList=  enderecoService.getAll();
+        List<EnderecoDTO> enderecoList = enderecoService.getAll();
         if (enderecoList != null) {
-            responseEntity = new ResponseEntity(enderecoList, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Lista de endereços inexistente", HttpStatus.BAD_REQUEST);
+            responseEntity = new ResponseEntity(enderecoList, HttpStatus.NOT_FOUND);
+        } else {
+            responseEntity = new ResponseEntity("Lista de endereços indisponível", HttpStatus.NOT_FOUND);
         }
         return responseEntity;
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete (@PathVariable int id) {
         ResponseEntity responseEntity = null;
@@ -70,11 +64,10 @@ public class EnderecoController {
         }
         return responseEntity;
     }
-
     @PutMapping("/{id}")
-    public ResponseEntity<EnderecoDTO> update(@RequestBody EnderecoDTO enderecoDTO, @PathVariable int id) {
+    public ResponseEntity<EnderecoDTO>update(@RequestBody EnderecoDTO enderecoDTO) {
         ResponseEntity responseEntity = null;
-        EnderecoDTO enderecoUpdate = enderecoService.update(enderecoDTO, id);
+        EnderecoDTO enderecoUpdate = enderecoService.update(enderecoDTO);
         if (enderecoUpdate != null) {
             responseEntity = new ResponseEntity(enderecoUpdate, HttpStatus.OK);
         }else {
