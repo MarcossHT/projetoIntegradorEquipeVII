@@ -57,8 +57,8 @@ public class EnderecoController {
         return enderecoService.delete(id);
     }
 
-    @PutMapping("/{id}")
-    public EnderecoDTO update(@RequestBody EnderecoDTO enderecoDTO, @PathVariable int id) {
-        return enderecoService.update(enderecoDTO, id);
+    @PutMapping()
+    public EnderecoDTO update(@RequestBody EnderecoDTO enderecoDTO) {
+        return enderecoService.update(enderecoDTO);
     }
 }

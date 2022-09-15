@@ -55,8 +55,8 @@ public class ConsultaController {
         return consultaService.delete(id);
     }
 
-    @PutMapping("/{id}")
-    public ConsultaDTO update(@RequestBody ConsultaDTO consultaDTO, @PathVariable int id) {
-        return consultaService.update(consultaDTO, id);
+    @PutMapping()
+    public ConsultaDTO update(@RequestBody ConsultaDTO consultaDTO) {
+        return consultaService.update(consultaDTO);
     }
 }

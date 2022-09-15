@@ -54,20 +54,25 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
 
     @Override
     public String delete(int id) {
-        return " ";
+        pacienteRepository.deleteById(id);
+        return "Paciente deletado " + id;
     }
 
     @Override
-    public PacienteDTO update(PacienteDTO pacienteDTO, int id) {
-        /*Paciente paciente = new Paciente(pacienteDTO);
-        int enderecoIdPaciente = pacienteDTO.getIdEndereco();
-        int enderecoId = enderecoService.getIdEndereco(enderecoIdPaciente);
-        paciente.setIdEndereco(enderecoId);
-        paciente.setId(id);
+    public PacienteDTO update(PacienteDTO pacienteDTO) {
+        Paciente paciente = new Paciente(pacienteDTO);
+        EnderecoDTO enderecoDTO;
+        int idEndereco = paciente.getEndereco().getId();
 
-        if(paciente.getIdEndereco() != 0)
-            pacienteRepository.create(paciente);*/
-        return null;
+        if (enderecoService.ifEnderecoExists(idEndereco)) {
+            enderecoDTO = enderecoService.getById(idEndereco);
+            Endereco endereco = new Endereco(enderecoDTO);
+            paciente.setEndereco(endereco);
+            paciente = pacienteRepository.saveAndFlush(paciente);
+        }
+
+        pacienteDTO = new PacienteDTO(paciente);
+        return pacienteDTO;
     }
 
     @Override
@@ -83,5 +88,11 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
         }*/
         return null;
 
+    }
+
+    public PacienteDTO getByNome(String nome) {
+        Paciente paciente = pacienteRepository.findByNome(nome);
+        PacienteDTO pacienteDTO = new PacienteDTO(paciente);
+        return pacienteDTO;
     }
 }

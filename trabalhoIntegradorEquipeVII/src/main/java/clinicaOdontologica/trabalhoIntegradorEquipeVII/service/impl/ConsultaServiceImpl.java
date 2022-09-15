@@ -63,25 +63,33 @@ public class ConsultaServiceImpl implements IService<ConsultaDTO> {
 
     @Override
     public String delete(int id) {
-        return " ";
+        consultaRepository.deleteById(id);
+        return "Consulta deletada " + id;
     }
 
     @Override
-    public ConsultaDTO update(ConsultaDTO consultaDTO, int id) {
-        /*Consulta consulta = new Consulta(consultaDTO);
-        int dentistaIdDTO = consultaDTO.getIdDentista();
-        int dentistaId = dentistaService.getIdDentista(dentistaIdDTO);
-        consulta.setIdDentista(dentistaId);
+    public ConsultaDTO update(ConsultaDTO consultaDTO) {
+        Consulta consulta = new Consulta(consultaDTO);
 
-        int pacienteDTO = consultaDTO.getIdPaciente();
-        int pacienteId = pacienteService.getIdPaciente(pacienteDTO);
-        consulta.setIdPaciente(pacienteId);
+        DentistaDTO dentistaDTO;
+        int idDentista = consulta.getDentista().getId();
+        PacienteDTO pacienteDTO;
+        int idPaciente = consulta.getPaciente().getId();
 
-        consulta.setId(id);
 
-        if(consulta.getIdDentista() != 0 && consulta.getIdPaciente() != 0)
-            consultaRepository.create(consulta);*/
-        return null;
+
+        if(dentistaService.ifDentistaExists(idDentista) && pacienteService.ifPacienteExists(idPaciente)) {
+            dentistaDTO = dentistaService.getById(idDentista);
+            pacienteDTO = pacienteService.getById(idPaciente);
+            Dentista dentista = new Dentista(dentistaDTO);
+            Paciente paciente = new Paciente(pacienteDTO);
+            consulta.setDentista(dentista);
+            consulta.setPaciente(paciente);
+            consulta = consultaRepository.saveAndFlush(consulta);
+        }
+
+        consultaDTO = new ConsultaDTO(consulta);
+        return consultaDTO;
     }
 
     @Override

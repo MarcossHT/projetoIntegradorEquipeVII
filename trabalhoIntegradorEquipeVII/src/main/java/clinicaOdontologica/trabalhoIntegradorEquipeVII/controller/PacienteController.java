@@ -56,10 +56,13 @@ public class PacienteController {
         return pacienteService.delete(id);
     }
 
-    @PutMapping("/{id}")
-    public PacienteDTO update(@RequestBody PacienteDTO pacienteDTO, @PathVariable int id) {
-        return pacienteService.update(pacienteDTO, id);
+    @PutMapping()
+    public PacienteDTO update(@RequestBody PacienteDTO pacienteDTO) {
+        return pacienteService.update(pacienteDTO);
     }
 
-
+    @GetMapping("/getByNome")
+    public PacienteDTO getByNome(@RequestParam(value = "nome") String nome) {
+        return pacienteService.getByNome(nome);
+    }
 }

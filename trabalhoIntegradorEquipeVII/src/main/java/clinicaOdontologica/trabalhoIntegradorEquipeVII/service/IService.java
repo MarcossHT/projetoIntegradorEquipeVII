@@ -8,7 +8,7 @@ public interface IService<T> {
 
     String delete(int id);
 
-    T update(T t, int id);
+    T update(T t);
 
     List<T> getAll();
 }

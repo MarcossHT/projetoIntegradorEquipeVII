@@ -56,8 +56,13 @@ public class DentistaController {
         return dentistaService.delete(id);
     }
 
-    @PutMapping("/{id}")
-    public DentistaDTO update(@RequestBody DentistaDTO dentistaDTO, @PathVariable int id) {
-        return dentistaService.update(dentistaDTO, id);
+    @PutMapping()
+    public DentistaDTO update(@RequestBody DentistaDTO dentistaDTO) {
+        return dentistaService.update(dentistaDTO);
     }
+
+    @GetMapping("/getByNome")
+    public DentistaDTO getByNome(@RequestParam(value = "nome") String nome) {
+        return dentistaService.getByNome(nome);
+    };
 }

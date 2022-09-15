@@ -37,19 +37,15 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
 
     @Override
     public String delete(int id) {
-        return null;
+        dentistaRepository.deleteById(id);
+        return "Dentista deletado " + id;
     }
 
     @Override
-    public DentistaDTO update(DentistaDTO dentistaDTO, int id) {
-        /*Dentista dentista = new Dentista(dentistaDTO);
-        dentista.setId(id);
-
-        if(dentista.getId() != 0)
-            dentistaRepository.create(dentista);*/
-
-        return null;
-
+    public DentistaDTO update(DentistaDTO dentistaDTO) {
+        Dentista dentista = new Dentista(dentistaDTO);
+        dentistaRepository.saveAndFlush(dentista);
+        return dentistaDTO;
     }
 
     public boolean ifDentistaExists(int id) {
@@ -66,6 +62,12 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
             dentistaDTOS.add(dentistaDTO);
         }*/
         return null;
+    }
+
+    public DentistaDTO getByNome(String nome) {
+        Dentista dentista = dentistaRepository.findByNome(nome);
+        DentistaDTO dentistaDTO = new DentistaDTO(dentista);
+        return dentistaDTO;
     }
 }
 
