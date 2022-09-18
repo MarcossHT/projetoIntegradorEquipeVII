@@ -19,8 +19,8 @@ public class EnderecoController {
     private EnderecoServiceImpl enderecoService;
 
 
-    @PostMapping
-    public ResponseEntity<EnderecoDTO> create(@RequestParam EnderecoDTO enderecoDTO) {
+    @PostMapping("/salvar")
+    public ResponseEntity<EnderecoDTO> create(@RequestBody EnderecoDTO enderecoDTO) {
         ResponseEntity responseEntity = null;
 
         if (enderecoDTO.getRua() != null) {
@@ -34,7 +34,7 @@ public class EnderecoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EnderecoDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<EnderecoDTO> getById(@PathVariable int id) {
         ResponseEntity responseEntity = null;
 
         EnderecoDTO enderecoDTO = enderecoService.getById(id);
@@ -52,12 +52,12 @@ public class EnderecoController {
         return enderecoService.getAll();
     }
 
-    @DeleteMapping("/{id}")
-    public String delete (@PathVariable int id) {
+    @DeleteMapping("/deletar/{id}")
+    public String delete (@PathVariable Integer id) {
         return enderecoService.delete(id);
     }
 
-    @PutMapping()
+    @PutMapping("/atualizar")
     public EnderecoDTO update(@RequestBody EnderecoDTO enderecoDTO) {
         return enderecoService.update(enderecoDTO);
     }

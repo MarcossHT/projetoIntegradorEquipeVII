@@ -1,7 +1,9 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Usuario;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.UsuarioDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IDentistaRepository;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,22 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
     @Autowired
     private IDentistaRepository dentistaRepository;
 
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
+
     @Override
     public DentistaDTO create(DentistaDTO dentistaDTO) {
         Dentista dentista = new Dentista(dentistaDTO);
-        dentista = dentistaRepository.save(dentista);
+        UsuarioDTO usuarioDTO;
+        int idUsuario = dentista.getUsuario().getId();
+
+        if(usuarioService.ifUsuarioExists(idUsuario)) {
+            usuarioDTO = usuarioService.getById(idUsuario);
+            Usuario usuario = new Usuario(usuarioDTO);
+            dentista.setUsuario(usuario);
+            dentista = dentistaRepository.save(dentista);
+        }
+
         dentistaDTO = new DentistaDTO(dentista);
         return dentistaDTO;
     }
@@ -29,11 +43,6 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
         Dentista dentista = dentistaRepository.findById(id).get();
         return new DentistaDTO(dentista);
     }
-
-    /*public Integer getByName(String name) {
-        return dentistaRepository.getByName(name);
-    }*/
-
 
     @Override
     public String delete(int id) {
@@ -45,6 +54,7 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
     public DentistaDTO update(DentistaDTO dentistaDTO) {
         Dentista dentista = new Dentista(dentistaDTO);
         dentistaRepository.saveAndFlush(dentista);
+        dentistaDTO = new DentistaDTO(dentista);
         return dentistaDTO;
     }
 
@@ -54,14 +64,14 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
 
     @Override
     public List<DentistaDTO> getAll() {
-        /*List<Dentista> dentistaList = dentistaRepository.getAll();
+        List<Dentista> dentistaList = dentistaRepository.findAll();
         List<DentistaDTO> dentistaDTOS = new ArrayList<>();
 
-        for(Dentista dentista: dentistaList) {
+        for (Dentista dentista: dentistaList) {
             DentistaDTO dentistaDTO = new DentistaDTO(dentista);
             dentistaDTOS.add(dentistaDTO);
-        }*/
-        return null;
+        }
+        return dentistaDTOS;
     }
 
     public DentistaDTO getByNome(String nome) {

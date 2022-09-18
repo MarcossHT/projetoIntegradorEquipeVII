@@ -16,8 +16,8 @@ public class ConsultaController {
     @Autowired
     private ConsultaServiceImpl consultaService;
 
-    @PostMapping
-    public ResponseEntity<ConsultaDTO> create(@RequestParam ConsultaDTO consultaDTO) {
+    @PostMapping("/salvar")
+    public ResponseEntity<ConsultaDTO> create(@RequestBody ConsultaDTO consultaDTO) {
         ResponseEntity responseEntity = null;
 
         if (consultaDTO.getData() != null) {
@@ -50,12 +50,12 @@ public class ConsultaController {
         return consultaService.getAll();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletar/{id}")
     public String delete (@PathVariable int id) {
         return consultaService.delete(id);
     }
 
-    @PutMapping()
+    @PutMapping("/atualizar")
     public ConsultaDTO update(@RequestBody ConsultaDTO consultaDTO) {
         return consultaService.update(consultaDTO);
     }

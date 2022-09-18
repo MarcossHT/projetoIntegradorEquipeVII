@@ -18,7 +18,7 @@ public class DentistaController {
     @Autowired
     private DentistaServiceImpl dentistaService;
 
-    @PostMapping
+    @PostMapping("/salvar")
     public ResponseEntity<DentistaDTO> create(@RequestBody DentistaDTO dentistaDTO) {
         ResponseEntity responseEntity = null;
 
@@ -32,7 +32,7 @@ public class DentistaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DentistaDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<DentistaDTO> getById(@PathVariable int id) {
         ResponseEntity responseEntity = null;
 
         DentistaDTO dentistaDTO = dentistaService.getById(id);
@@ -51,12 +51,12 @@ public class DentistaController {
         return dentistaService.getAll();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletar/{id}")
     public String delete (@PathVariable int id) {
         return dentistaService.delete(id);
     }
 
-    @PutMapping()
+    @PutMapping("/atualizar")
     public DentistaDTO update(@RequestBody DentistaDTO dentistaDTO) {
         return dentistaService.update(dentistaDTO);
     }

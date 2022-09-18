@@ -19,8 +19,8 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
     @Override
     public EnderecoDTO create(EnderecoDTO enderecoDTO) {
         Endereco endereco = new Endereco(enderecoDTO);
-       endereco = enderecoRepository.save(endereco);
-       enderecoDTO = new EnderecoDTO(endereco);
+        endereco = enderecoRepository.save(endereco);
+        enderecoDTO = new EnderecoDTO(endereco);
         return enderecoDTO;
     }
 
@@ -40,6 +40,7 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
     public EnderecoDTO update(EnderecoDTO enderecoDTO) {
         Endereco endereco = new Endereco(enderecoDTO);
         enderecoRepository.saveAndFlush(endereco);
+        enderecoDTO = new EnderecoDTO(endereco);
         return enderecoDTO;
     }
 
@@ -49,7 +50,13 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
 
     @Override
     public List<EnderecoDTO> getAll() {
+        List<Endereco> enderecoList = enderecoRepository.findAll();
+        List<EnderecoDTO> enderecoDTOS = new ArrayList<>();
 
-        return null;
+        for (Endereco endereco: enderecoList) {
+            EnderecoDTO enderecoDTO = new EnderecoDTO(endereco);
+            enderecoDTOS.add(enderecoDTO);
+        }
+        return enderecoDTOS;
     }
 }

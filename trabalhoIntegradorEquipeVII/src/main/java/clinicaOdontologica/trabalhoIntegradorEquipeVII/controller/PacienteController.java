@@ -18,8 +18,8 @@ public class PacienteController {
     @Autowired
     private PacienteServiceImpl pacienteService;
 
-    @PostMapping
-    public ResponseEntity<PacienteDTO> create(@RequestParam PacienteDTO pacienteDTO) {
+    @PostMapping("/salvar")
+    public ResponseEntity<PacienteDTO> create(@RequestBody PacienteDTO pacienteDTO) {
         ResponseEntity responseEntity = null;
 
         if (pacienteDTO.getNome() != null) {
@@ -32,7 +32,7 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PacienteDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<PacienteDTO> getById(@PathVariable int id) {
         ResponseEntity responseEntity = null;
 
         PacienteDTO pacienteDTO = pacienteService.getById(id);
@@ -51,12 +51,12 @@ public class PacienteController {
         return pacienteService.getAll();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletar/{id}")
     public String delete (@PathVariable int id) {
         return pacienteService.delete(id);
     }
 
-    @PutMapping()
+    @PutMapping("/atualizar")
     public PacienteDTO update(@RequestBody PacienteDTO pacienteDTO) {
         return pacienteService.update(pacienteDTO);
     }
