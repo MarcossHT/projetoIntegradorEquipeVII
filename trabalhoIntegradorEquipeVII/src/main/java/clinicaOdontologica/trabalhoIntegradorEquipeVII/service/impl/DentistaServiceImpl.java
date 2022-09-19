@@ -1,7 +1,9 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Usuario;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.UsuarioDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IDentistaRepository;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,16 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
     @Override
     public DentistaDTO create(DentistaDTO dentistaDTO) {
         Dentista dentista = new Dentista(dentistaDTO);
-        dentista = dentistaRepository.save(dentista);
+        UsuarioDTO usuarioDTO;
+        int idUsuario = dentista.getUsuario().getId();
+
+        if(usuarioService.ifUsuarioExists(idUsuario)) {
+            usuarioDTO = usuarioService.getById(idUsuario);
+            Usuario usuario = new Usuario(usuarioDTO);
+            dentista.setUsuario(usuario);
+            dentista = dentistaRepository.save(dentista);
+        }
+
         dentistaDTO = new DentistaDTO(dentista);
         return dentistaDTO;
     }
