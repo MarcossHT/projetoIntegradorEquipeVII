@@ -49,7 +49,7 @@ public class EnderecoController {
     }
 
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<String> delete (@PathVariable Integer id) throws ResourceNotFoundException{
+    public ResponseEntity<String> delete (@PathVariable int id) throws ResourceNotFoundException{
         try {
             return ResponseEntity.ok(enderecoService.delete(id));
         } catch (Exception e) {
