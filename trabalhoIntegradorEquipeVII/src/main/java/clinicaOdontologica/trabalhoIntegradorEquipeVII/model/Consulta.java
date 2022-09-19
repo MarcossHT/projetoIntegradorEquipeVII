@@ -4,6 +4,7 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.ConsultaDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Consultas")
@@ -11,13 +12,15 @@ import javax.persistence.*;
 public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     @Column(name = "data", nullable = false)
     private String data;
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Dentista.class)
+    @PrimaryKeyJoinColumn
     @JoinColumn(name = "dentista_id")
     private Dentista dentista;
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Paciente.class)
+    @PrimaryKeyJoinColumn
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
@@ -28,6 +31,8 @@ public class Consulta {
     public Consulta(ConsultaDTO consultaDTO) {
         this.id = consultaDTO.getId();
         this.data = consultaDTO.getData();
+        this.dentista = consultaDTO.getDentista();
+        this.paciente = consultaDTO.getPaciente();
     }
 
     public Dentista getDentista() {
@@ -46,7 +51,7 @@ public class Consulta {
         this.paciente = paciente;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

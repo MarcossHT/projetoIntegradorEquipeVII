@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class Dentista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     @Column(name = "nome", nullable = false)
     private String nome;
 
@@ -22,10 +23,14 @@ public class Dentista {
     private String sobrenome;
     @Column(name = "matriculaCadastro", unique = true, nullable = false)
     private String matriculaCadastro;
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Usuario.class)
+    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
-    @OneToMany(mappedBy = "dentista", fetch = FetchType.LAZY, targetEntity = Consulta.class)
+    /*@OneToOne(mappedBy = "dentista", fetch = FetchType.LAZY, targetEntity = Consulta.class)
     @JsonIgnore
-    private List<Consulta> consultaList = new ArrayList<>();
+    private List<Consulta> consultaList = new ArrayList<>();*/
 
 
 
@@ -38,9 +43,10 @@ public class Dentista {
         this.nome = dentistaDTO.getNome();
         this.sobrenome = dentistaDTO.getSobrenome();
         this.matriculaCadastro = dentistaDTO.getMatriculaCadastro();
+        this.usuario = dentistaDTO.getUsuario();
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -56,19 +62,19 @@ public class Dentista {
         return sobrenome;
     }
 
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
-    }
-
     public String getMatriculaCadastro() {
         return matriculaCadastro;
     }
 
-    public void setMatriculaCadastro(String matriculaCadastro) {
-        this.matriculaCadastro = matriculaCadastro;
+    /*public List<Consulta> getConsultaList() {
+        return consultaList;
+    }*/
+
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public List<Consulta> getConsultaList() {
-        return consultaList;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

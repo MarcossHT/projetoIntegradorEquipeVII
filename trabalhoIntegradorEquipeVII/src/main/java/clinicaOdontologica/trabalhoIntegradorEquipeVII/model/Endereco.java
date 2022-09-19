@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     @Column(name = "rua", nullable = false)
     private String rua;
     @Column(name = "numero", nullable = false)
@@ -26,9 +27,9 @@ public class Endereco {
     @Column(name = "estado", nullable = false)
     private String estado;
 
-    @OneToMany(mappedBy = "endereco", fetch = FetchType.LAZY, targetEntity = Paciente.class)
+    /*@OneToMany(mappedBy = "endereco", fetch = FetchType.LAZY, targetEntity = Paciente.class)
     @JsonIgnore
-    private List<Paciente> pacienteList = new ArrayList<>();
+    private List<Paciente> pacienteList = new ArrayList<>();*/
 
 
     public Endereco() {
@@ -44,13 +45,13 @@ public class Endereco {
         this.estado = enderecoDTO.getEstado();
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public List<Paciente> getPacienteList() {
+    /*public List<Paciente> getPacienteList() {
         return pacienteList;
-    }
+    }*/
 
     public String getRua() {
         return rua;

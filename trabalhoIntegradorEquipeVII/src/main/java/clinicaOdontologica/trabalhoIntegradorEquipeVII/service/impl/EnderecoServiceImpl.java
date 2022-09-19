@@ -1,9 +1,7 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IEnderecoRepository;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +19,8 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
     @Override
     public EnderecoDTO create(EnderecoDTO enderecoDTO) {
         Endereco endereco = new Endereco(enderecoDTO);
-       endereco = enderecoRepository.save(endereco);
-       enderecoDTO = new EnderecoDTO(endereco);
+        endereco = enderecoRepository.save(endereco);
+        enderecoDTO = new EnderecoDTO(endereco);
         return enderecoDTO;
     }
 
@@ -31,28 +29,34 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
         Endereco endereco = enderecoRepository.findById(id).get();
         return new EnderecoDTO(endereco);
     }
+
     @Override
     public String delete(int id) {
         enderecoRepository.deleteById(id);
         return "Endereco deletado " + id;
     }
+
     @Override
     public EnderecoDTO update(EnderecoDTO enderecoDTO) {
         Endereco endereco = new Endereco(enderecoDTO);
         enderecoRepository.saveAndFlush(endereco);
+        enderecoDTO = new EnderecoDTO(endereco);
         return enderecoDTO;
     }
+
+    public boolean ifEnderecoExists(int id) {
+        return enderecoRepository.existsById(id);
+    }
+
     @Override
     public List<EnderecoDTO> getAll() {
         List<Endereco> enderecoList = enderecoRepository.findAll();
-        List<EnderecoDTO> enderecoDTOList = new ArrayList<>();
-        for (Endereco endereco : enderecoList) {
+        List<EnderecoDTO> enderecoDTOS = new ArrayList<>();
+
+        for (Endereco endereco: enderecoList) {
             EnderecoDTO enderecoDTO = new EnderecoDTO(endereco);
-            enderecoDTOList.add(enderecoDTO);
+            enderecoDTOS.add(enderecoDTO);
         }
-        return enderecoDTOList;
-    }
-    public boolean ifEnderecoExists(int id) {
-        return enderecoRepository.existsById(id);
+        return enderecoDTOS;
     }
 }

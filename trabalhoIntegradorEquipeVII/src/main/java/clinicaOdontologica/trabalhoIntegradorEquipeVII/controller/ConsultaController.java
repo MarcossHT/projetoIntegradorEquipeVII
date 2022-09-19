@@ -1,5 +1,7 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ProcessErrorException;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ResourceNotFoundException;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.ConsultaDTO;import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.ConsultaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,59 +18,56 @@ public class ConsultaController {
     @Autowired
     private ConsultaServiceImpl consultaService;
 
-    @PostMapping
-    public ResponseEntity<ConsultaDTO> create(@RequestParam ConsultaDTO consultaDTO) {
-        ResponseEntity responseEntity = null;
-        if (consultaDTO.getData() != null) {
-            ConsultaDTO consultaDTO1  = consultaService.create(consultaDTO);
-            responseEntity = new ResponseEntity(consultaDTO1, HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
+    @PostMapping("/salvar")
+    public ResponseEntity<ConsultaDTO> create(@RequestBody ConsultaDTO consultaDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(consultaService.create(consultaDTO));
+        }catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
         }
-        return responseEntity;
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<ConsultaDTO> getById(@PathVariable int id) {
-        ResponseEntity responseEntity = null;
-        ConsultaDTO consultaDTO = consultaService.getById(id);
-        if (consultaDTO != null) {
-            responseEntity = new ResponseEntity(consultaDTO, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Consulta não existente", HttpStatus.BAD_REQUEST);
+
+     @GetMapping("/{id}")
+    public ResponseEntity<ConsultaDTO> getById(@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(consultaService.getById(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Consulta nao encontrada " + id);
         }
-        return responseEntity;
     }
+
     @GetMapping
-    public ResponseEntity<List<ConsultaDTO>> getAll() {
-        ResponseEntity responseEntity = null;
-        List <ConsultaDTO> consultaList=  consultaService.getAll();
-        if (consultaList != null) {
-            responseEntity = new ResponseEntity(consultaList, HttpStatus.NOT_FOUND);
-        }else {
-            responseEntity = new ResponseEntity("Lista de consultas indisponível", HttpStatus.NOT_FOUND);
+    public ResponseEntity<List<ConsultaDTO>> getAll() throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(consultaService.getAll());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Consultas nao encontradas");
         }
-        return responseEntity;
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete (@PathVariable int id) {
-        ResponseEntity responseEntity = null;
-        String deleteId = consultaService.delete(id);
-        if (deleteId != null) {
-            responseEntity = new ResponseEntity(deleteId, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Não é possível excluir uma consulta inexistente", HttpStatus.BAD_REQUEST);
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<String> delete (@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(consultaService.delete(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Consulta nao encontrada " + id);
         }
-        return responseEntity;
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<ConsultaDTO> update(@RequestBody ConsultaDTO consultaDTO) {
-        ResponseEntity responseEntity = null;
-        ConsultaDTO consultaUpdate = consultaService.update(consultaDTO);
-        if (consultaUpdate != null) {
-            responseEntity = new ResponseEntity(consultaUpdate, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Atualização não realizada! Dados inexistentes", HttpStatus.BAD_REQUEST);
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<ConsultaDTO> update(@RequestBody ConsultaDTO consultaDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(consultaService.update(consultaDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
         }
-        return responseEntity;
+    }
+
+    public ResponseEntity<String> errorNotFound(ResourceNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    public ResponseEntity<String> processError(ProcessErrorException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 }
