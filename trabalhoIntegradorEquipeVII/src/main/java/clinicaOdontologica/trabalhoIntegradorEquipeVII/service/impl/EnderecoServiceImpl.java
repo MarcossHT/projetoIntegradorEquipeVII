@@ -19,8 +19,8 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
     @Override
     public EnderecoDTO create(EnderecoDTO enderecoDTO) {
         Endereco endereco = new Endereco(enderecoDTO);
-       endereco = enderecoRepository.save(endereco);
-       enderecoDTO = new EnderecoDTO(endereco);
+        endereco = enderecoRepository.save(endereco);
+        enderecoDTO = new EnderecoDTO(endereco);
         return enderecoDTO;
     }
 
@@ -30,18 +30,18 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
         return new EnderecoDTO(endereco);
     }
 
-
-
-
     @Override
     public String delete(int id) {
-        return null;
+        enderecoRepository.deleteById(id);
+        return "Endereco deletado " + id;
     }
 
     @Override
-    public EnderecoDTO update(EnderecoDTO enderecoDTO, int id) {
-
-        return null;
+    public EnderecoDTO update(EnderecoDTO enderecoDTO) {
+        Endereco endereco = new Endereco(enderecoDTO);
+        enderecoRepository.saveAndFlush(endereco);
+        enderecoDTO = new EnderecoDTO(endereco);
+        return enderecoDTO;
     }
 
     public boolean ifEnderecoExists(int id) {
@@ -50,7 +50,13 @@ public class EnderecoServiceImpl implements IService<EnderecoDTO> {
 
     @Override
     public List<EnderecoDTO> getAll() {
+        List<Endereco> enderecoList = enderecoRepository.findAll();
+        List<EnderecoDTO> enderecoDTOS = new ArrayList<>();
 
-        return null;
+        for (Endereco endereco: enderecoList) {
+            EnderecoDTO enderecoDTO = new EnderecoDTO(endereco);
+            enderecoDTOS.add(enderecoDTO);
+        }
+        return enderecoDTOS;
     }
 }

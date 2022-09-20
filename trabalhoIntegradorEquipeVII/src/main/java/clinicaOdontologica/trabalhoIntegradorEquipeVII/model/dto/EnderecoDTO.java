@@ -4,7 +4,7 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
 
 public class EnderecoDTO {
 
-    private Integer id;
+    private int id;
     private String rua;
     private String numero;
     private String bairro;
@@ -23,7 +23,7 @@ public class EnderecoDTO {
     public EnderecoDTO() {
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

@@ -1,5 +1,4 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
-
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Consulta;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
@@ -28,20 +27,17 @@ public class ConsultaServiceImpl implements IService<ConsultaDTO> {
     @Override
     public ConsultaDTO create(ConsultaDTO consultaDTO) {
         Consulta consulta = new Consulta(consultaDTO);
-
         DentistaDTO dentistaDTO;
         int idDentista = consulta.getDentista().getId();
         PacienteDTO pacienteDTO;
         int idPaciente = consulta.getPaciente().getId();
 
-
-
         if(dentistaService.ifDentistaExists(idDentista) && pacienteService.ifPacienteExists(idPaciente)) {
             dentistaDTO = dentistaService.getById(idDentista);
-            pacienteDTO = pacienteService.getById(idPaciente);
             Dentista dentista = new Dentista(dentistaDTO);
-            Paciente paciente = new Paciente(pacienteDTO);
             consulta.setDentista(dentista);
+            pacienteDTO = pacienteService.getById(idPaciente);
+            Paciente paciente = new Paciente(pacienteDTO);
             consulta.setPaciente(paciente);
             consulta = consultaRepository.save(consulta);
         }
@@ -59,44 +55,29 @@ public class ConsultaServiceImpl implements IService<ConsultaDTO> {
 
     }
 
-
-
     @Override
     public String delete(int id) {
-        return " ";
+        consultaRepository.deleteById(id);
+        return "Consulta deletada " + id;
     }
 
     @Override
-    public ConsultaDTO update(ConsultaDTO consultaDTO, int id) {
-        /*Consulta consulta = new Consulta(consultaDTO);
-        int dentistaIdDTO = consultaDTO.getIdDentista();
-        int dentistaId = dentistaService.getIdDentista(dentistaIdDTO);
-        consulta.setIdDentista(dentistaId);
-
-        int pacienteDTO = consultaDTO.getIdPaciente();
-        int pacienteId = pacienteService.getIdPaciente(pacienteDTO);
-        consulta.setIdPaciente(pacienteId);
-
-        consulta.setId(id);
-
-        if(consulta.getIdDentista() != 0 && consulta.getIdPaciente() != 0)
-            consultaRepository.create(consulta);*/
-        return null;
+    public ConsultaDTO update(ConsultaDTO consultaDTO) {
+        Consulta consulta = new Consulta(consultaDTO);
+        consulta = consultaRepository.saveAndFlush(consulta);
+        consultaDTO = new ConsultaDTO(consulta);
+        return consultaDTO;
     }
 
     @Override
     public List<ConsultaDTO> getAll() {
-        /*List<Consulta> consultaList = consultaRepository.getAll();
+        List<Consulta> consultaList = consultaRepository.findAll();
         List<ConsultaDTO> consultaDTOS = new ArrayList<>();
 
-        for(Consulta consulta: consultaList){
-            int dentistaIdConsulta = getDentistaId(consulta);
-            int pacienteIdConsulta = getPacienteId(consulta);
+        for (Consulta consulta: consultaList) {
             ConsultaDTO consultaDTO = new ConsultaDTO(consulta);
-            consultaDTO.setIdDentista(dentistaIdConsulta);
-            consultaDTO.setIdPaciente(pacienteIdConsulta);
             consultaDTOS.add(consultaDTO);
-        }*/
-        return null;
+        }
+        return consultaDTOS;
     }
 }

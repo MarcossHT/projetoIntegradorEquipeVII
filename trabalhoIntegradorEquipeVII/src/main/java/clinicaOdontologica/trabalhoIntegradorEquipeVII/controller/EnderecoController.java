@@ -1,6 +1,8 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
 
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ProcessErrorException;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ResourceNotFoundException;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.EnderecoServiceImpl;
@@ -19,67 +21,56 @@ public class EnderecoController {
     private EnderecoServiceImpl enderecoService;
 
 
-    @PostMapping
-    public ResponseEntity<EnderecoDTO> create(@RequestParam EnderecoDTO enderecoDTO) {
-        ResponseEntity responseEntity = null;
-
-        if (enderecoDTO.getRua() != null) {
-            EnderecoDTO enderecoDTO1 = enderecoService.create(enderecoDTO);
-            responseEntity = new ResponseEntity(enderecoDTO1, HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
+    @PostMapping("/salvar")
+    public ResponseEntity<EnderecoDTO> create(@RequestBody EnderecoDTO enderecoDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(enderecoService.create(enderecoDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
         }
-
-        return responseEntity;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EnderecoDTO> getById(@PathVariable Integer id) {
-        ResponseEntity responseEntity = null;
-
-        EnderecoDTO enderecoDTO = enderecoService.getById(id);
-
-        if (enderecoDTO != null) {
-            responseEntity = new ResponseEntity(enderecoDTO, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Endereco não existente", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<EnderecoDTO> getById(@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(enderecoService.getById(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Endereco nao encontrado " + id);
         }
-        return responseEntity;
     }
 
     @GetMapping
-    public ResponseEntity<EnderecoDTO> getAll() {
-        ResponseEntity responseEntity = null;
-        List <EnderecoDTO> enderecoList=  enderecoService.getAll();
-        if (enderecoList != null) {
-            responseEntity = new ResponseEntity(enderecoList, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Lista de endereços inexistente", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List<EnderecoDTO>> getAll() throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(enderecoService.getAll());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Enderecos nao encontrados");
         }
-        return responseEntity;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete (@PathVariable int id) {
-        ResponseEntity responseEntity = null;
-        String deleteId = enderecoService.delete(id);
-        if (deleteId != null) {
-            responseEntity = new ResponseEntity(deleteId, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Não é possível excluir um endereço inexistente", HttpStatus.BAD_REQUEST);
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<String> delete (@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(enderecoService.delete(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Endereco nao encontrado " + id);
         }
-        return responseEntity;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EnderecoDTO> update(@RequestBody EnderecoDTO enderecoDTO, @PathVariable int id) {
-        ResponseEntity responseEntity = null;
-        EnderecoDTO enderecoUpdate = enderecoService.update(enderecoDTO, id);
-        if (enderecoUpdate != null) {
-            responseEntity = new ResponseEntity(enderecoUpdate, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Atualização não realizada! Dados inexistentes", HttpStatus.BAD_REQUEST);
+    @PutMapping("/atualizar")
+    public ResponseEntity<EnderecoDTO> update(@RequestBody EnderecoDTO enderecoDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(enderecoService.update(enderecoDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
         }
-        return responseEntity;
+    }
+
+    public ResponseEntity<String> errorNotFound(ResourceNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    public ResponseEntity<String> processError(ProcessErrorException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 }
