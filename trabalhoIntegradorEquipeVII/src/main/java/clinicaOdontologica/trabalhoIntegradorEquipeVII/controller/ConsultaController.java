@@ -1,5 +1,7 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
+
+
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.ConsultaDTO;import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.ConsultaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,45 +20,56 @@ public class ConsultaController {
 
     @PostMapping
     public ResponseEntity<ConsultaDTO> create(@RequestParam ConsultaDTO consultaDTO) {
-        ResponseEntity responseEntity = null;
-
-        if (consultaDTO.getData() != null) {
-            ConsultaDTO consultaDTO1  = consultaService.create(consultaDTO);
-            responseEntity = new ResponseEntity(consultaDTO1, HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
+        throws ProcessErrorException {
+            try {
+                return ResponseEntity.ok(consultaService.create(consultaDTO));
+            } catch (Exception e) {
+                throw new ProcessErrorException("Um erro interno aconteceu");
+            }
         }
-
-        return responseEntity;
     }
-
      @GetMapping("/{id}")
-    public ResponseEntity<ConsultaDTO> getById(@PathVariable int id) {
-        ResponseEntity responseEntity = null;
-
-        ConsultaDTO consultaDTO = consultaService.getById(id);
-
-        if (consultaDTO != null) {
-            responseEntity = new ResponseEntity(consultaDTO, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Consulta não existente", HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
-
-    }
+    public ResponseEntity<ConsultaDTO> getById(@PathVariable int id)
+     throws ResourceNotFoundException {
+         try {
+             return ResponseEntity.ok(consultaService.getById(id));
+         } catch (Exception e) {
+             throw new ResourceNotFoundException("Consulta nao encontrada" + id);
+         }
+     }
 
     @GetMapping
-    public List<ConsultaDTO> getAll() {
-        return consultaService.getAll();
+    public ResponseEntity<List<ConsultaDTO>> getAll() throws ResourceNotFoundException {
+        try{
+            return ResponseEntity.ok(consultaService.getAll());
+        }catch (Exception e) {
+            throw new ResourceNotFoundException ("Consulta nao encontrada");
+        }
+    }
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<String> delete (@PathVariable int id) throws ResourceNotFoundException {
+        try {
+            return ResponseEntity.ok(consultaService.delete(id));
+        }catch (Exception e) {
+            throw new ResourceNotFoundException("Consulta nao encontrada" + id);
+        }
+     }
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<ConsultaDTO> update(@RequestBody ConsultaDTO consultaDTO)
+        throws ProcessErrorException {
+        try {
+            return ResponseEntity.ok(consultaService.update(consultaDTO));
+        }catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
+        }
     }
 
-    @DeleteMapping("/{id}")
-    public String delete (@PathVariable int id) {
-        return consultaService.delete(id);
+    public ResponseEntity<String> errorNotfouind(ResourceNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @PutMapping("/{id}")
-    public ConsultaDTO update(@RequestBody ConsultaDTO consultaDTO, @PathVariable int id) {
-        return consultaService.update(consultaDTO, id);
+    public ResponseEntity<String> processError(ProcessErrorException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 }
