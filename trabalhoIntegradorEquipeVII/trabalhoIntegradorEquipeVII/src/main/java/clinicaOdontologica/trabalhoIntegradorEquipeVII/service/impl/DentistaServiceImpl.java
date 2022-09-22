@@ -24,16 +24,7 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
     @Override
     public DentistaDTO create(DentistaDTO dentistaDTO) {
         Dentista dentista = new Dentista(dentistaDTO);
-        UsuarioDTO usuarioDTO;
-        int idUsuario = dentista.getUsuario().getId();
-
-        if(usuarioService.ifUsuarioExists(idUsuario)) {
-            usuarioDTO = usuarioService.getById(idUsuario);
-            Usuario usuario = new Usuario(usuarioDTO);
-            dentista.setUsuario(usuario);
-            dentista = dentistaRepository.save(dentista);
-        }
-
+        dentista = dentistaRepository.save(dentista);
         dentistaDTO = new DentistaDTO(dentista);
         return dentistaDTO;
     }

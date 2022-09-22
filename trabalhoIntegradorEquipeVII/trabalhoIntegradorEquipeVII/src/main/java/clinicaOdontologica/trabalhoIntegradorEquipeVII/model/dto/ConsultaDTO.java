@@ -6,7 +6,7 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
 
 public class ConsultaDTO {
 
-    private Integer id;
+    private int id;
     private String data;
 
     private Dentista dentista;
@@ -24,7 +24,7 @@ public class ConsultaDTO {
     public ConsultaDTO() {
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     public String getData() {

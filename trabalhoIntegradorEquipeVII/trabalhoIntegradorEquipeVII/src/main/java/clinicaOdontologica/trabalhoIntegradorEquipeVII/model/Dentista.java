@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +23,13 @@ public class Dentista {
     private String sobrenome;
     @Column(name = "matriculaCadastro", unique = true, nullable = false)
     private String matriculaCadastro;
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Usuario.class)
-    @PrimaryKeyJoinColumn
+    /*@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Usuario.class)
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private Usuario usuario;*/
 
-    @OneToOne(mappedBy = "dentista", fetch = FetchType.LAZY, targetEntity = Consulta.class)
+    /*@OneToOne(mappedBy = "dentista", fetch = FetchType.LAZY, targetEntity = Consulta.class)
     @JsonIgnore
-    private List<Consulta> consultaList = new ArrayList<>();
+    private List<Consulta> consultaList = new ArrayList<>();*/
 
 
 
@@ -42,10 +42,9 @@ public class Dentista {
         this.nome = dentistaDTO.getNome();
         this.sobrenome = dentistaDTO.getSobrenome();
         this.matriculaCadastro = dentistaDTO.getMatriculaCadastro();
-        this.usuario = dentistaDTO.getUsuario();
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -65,7 +64,7 @@ public class Dentista {
         return matriculaCadastro;
     }
 
-    public List<Consulta> getConsultaList() {
+    /*public List<Consulta> getConsultaList() {
         return consultaList;
     }
 
@@ -75,5 +74,5 @@ public class Dentista {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
+    }*/
 }

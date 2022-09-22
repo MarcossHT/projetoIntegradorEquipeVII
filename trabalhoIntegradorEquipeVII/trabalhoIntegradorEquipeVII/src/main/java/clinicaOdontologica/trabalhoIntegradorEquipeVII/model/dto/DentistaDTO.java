@@ -5,14 +5,13 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Usuario;
 
 public class DentistaDTO {
 
-    private Integer id;
+    private int id;
     private String nome;
     private String sobrenome;
     private String matriculaCadastro;
 
-    private Usuario usuario;
-
-
+    public DentistaDTO() {
+    }
     public DentistaDTO(Dentista dentista) {
         this.id = dentista.getId();
         this.nome = dentista.getNome();
@@ -20,10 +19,7 @@ public class DentistaDTO {
         this.matriculaCadastro = dentista.getMatriculaCadastro();
     }
 
-    public DentistaDTO() {
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -41,15 +37,8 @@ public class DentistaDTO {
         return matriculaCadastro;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 }

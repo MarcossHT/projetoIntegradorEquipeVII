@@ -34,10 +34,10 @@ public class ConsultaServiceImpl implements IService<ConsultaDTO> {
 
         if(dentistaService.ifDentistaExists(idDentista) && pacienteService.ifPacienteExists(idPaciente)) {
             dentistaDTO = dentistaService.getById(idDentista);
-            pacienteDTO = pacienteService.getById(idPaciente);
             Dentista dentista = new Dentista(dentistaDTO);
-            Paciente paciente = new Paciente(pacienteDTO);
             consulta.setDentista(dentista);
+            pacienteDTO = pacienteService.getById(idPaciente);
+            Paciente paciente = new Paciente(pacienteDTO);
             consulta.setPaciente(paciente);
             consulta = consultaRepository.save(consulta);
         }

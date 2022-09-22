@@ -1,47 +1,98 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
-
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.enums.UserRoles;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.UsuarioDTO;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.*;;import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "nome", nullable = false)
     private String nome;
-    @Column(name = "email", nullable = false)
+
+    @Column(name = "userName", nullable = false, unique = true)
+    private String userName;
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "senha", nullable = false)
     private String senha;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = TipoUsuario.class)
-    @PrimaryKeyJoinColumn
-    @JoinColumn(name = "tipo_usuario_id")
-    private TipoUsuario tipoUsuario;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRoles userRoles;
 
     public Usuario() {
     }
 
     public Usuario(UsuarioDTO usuarioDTO) {
-        this.id = usuarioDTO.getId();
         this.nome = usuarioDTO.getNome();
+        this.userName = usuarioDTO.getUserName();
         this.email = usuarioDTO.getEmail();
         this.senha = usuarioDTO.getSenha();
-        this.tipoUsuario = usuarioDTO.getTipoUsuario();
+        this.userRoles = usuarioDTO.getUserRoles();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(userRoles.name());
+        return Collections.singleton(grantedAuthority);
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setPassword(String senha) {
+        this.senha = senha;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setNome(String nome) {
@@ -56,11 +107,11 @@ public class Usuario {
         return senha;
     }
 
-    public TipoUsuario getTipoUsuario() {
-        return tipoUsuario;
+    public UserRoles getUserRoles() {
+        return userRoles;
     }
 
-    public void setTipoUsuario(TipoUsuario tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setUserRoles(UserRoles userRoles) {
+        this.userRoles = userRoles;
     }
 }
