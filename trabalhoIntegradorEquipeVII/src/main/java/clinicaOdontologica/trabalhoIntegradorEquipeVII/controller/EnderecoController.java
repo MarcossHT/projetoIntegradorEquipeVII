@@ -1,7 +1,8 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
 
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ProcessErrorException;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ResourceNotFoundException;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.EnderecoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,45 +21,47 @@ public class EnderecoController {
 
 
     @PostMapping("/salvar")
-    public ResponseEntity<EnderecoDTO> create(@RequestBody EnderecoDTO enderecoDTO) {
-        ResponseEntity responseEntity = null;
-
-        if (enderecoDTO.getRua() != null) {
-            EnderecoDTO enderecoDTO1 = enderecoService.create(enderecoDTO);
-            responseEntity = new ResponseEntity(enderecoDTO1, HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<EnderecoDTO> create(@RequestBody EnderecoDTO enderecoDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(enderecoService.create(enderecoDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
         }
-
-        return responseEntity;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EnderecoDTO> getById(@PathVariable int id) {
-        ResponseEntity responseEntity = null;
-
-        EnderecoDTO enderecoDTO = enderecoService.getById(id);
-
-        if (enderecoDTO != null) {
-            responseEntity = new ResponseEntity(enderecoDTO, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Endereco não existente", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<EnderecoDTO> getById(@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(enderecoService.getById(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Endereco nao encontrado " + id);
         }
-        return responseEntity;
     }
 
     @GetMapping
-    public List<EnderecoDTO> getAll() {
-        return enderecoService.getAll();
+    public ResponseEntity<List<EnderecoDTO>> getAll() throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(enderecoService.getAll());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Enderecos nao encontrados");
+        }
     }
 
     @DeleteMapping("/deletar/{id}")
-    public String delete (@PathVariable Integer id) {
-        return enderecoService.delete(id);
+    public ResponseEntity<String> delete (@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(enderecoService.delete(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Endereco nao encontrado " + id);
+        }
     }
 
     @PutMapping("/atualizar")
-    public EnderecoDTO update(@RequestBody EnderecoDTO enderecoDTO) {
-        return enderecoService.update(enderecoDTO);
+    public ResponseEntity<EnderecoDTO> update(@RequestBody EnderecoDTO enderecoDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(enderecoService.update(enderecoDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
+        }
     }
 }

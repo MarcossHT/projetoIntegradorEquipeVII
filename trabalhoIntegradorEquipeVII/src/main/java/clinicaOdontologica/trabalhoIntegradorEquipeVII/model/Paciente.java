@@ -23,8 +23,8 @@ public class Paciente {
     @Column(name = "dataDeAlta", nullable = false)
     private String dataDeAlta;
 
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Usuario.class)
-    private Usuario usuario;
+    /*@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Usuario.class)
+    private Usuario usuario;*/
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Endereco.class)
     @PrimaryKeyJoinColumn
     @JoinColumn(name = "endereco_id")
@@ -43,7 +43,6 @@ public class Paciente {
         this.id = pacienteDTO.getId();
         this.nome = pacienteDTO.getNome();
         this.sobrenome = pacienteDTO.getSobrenome();
-        this.usuario = pacienteDTO.getUsuario();
         this.endereco = pacienteDTO.getEndereco();
         this.rg = pacienteDTO.getRg();
         this.dataDeAlta = pacienteDTO.getDataDeAlta();
@@ -74,11 +73,11 @@ public class Paciente {
         return dataDeAlta;
     }
 
-    public Usuario getUsuario() {
+    /*public Usuario getUsuario() {
         return usuario;
     }
 
-    /*public List<Consulta> getConsultaList() {
+    public List<Consulta> getConsultaList() {
         return consultaList;
     }*/
 
@@ -90,7 +89,7 @@ public class Paciente {
         this.endereco = endereco;
     }
 
-    public void setUsuario(Usuario usuario) {
+    /*public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
+    }*/
 }

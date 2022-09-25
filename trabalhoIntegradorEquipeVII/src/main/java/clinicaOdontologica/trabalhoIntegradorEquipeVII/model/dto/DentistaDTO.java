@@ -10,8 +10,6 @@ public class DentistaDTO {
     private String sobrenome;
     private String matriculaCadastro;
 
-    private Usuario usuario;
-
     public DentistaDTO() {
     }
     public DentistaDTO(Dentista dentista) {
@@ -19,7 +17,6 @@ public class DentistaDTO {
         this.nome = dentista.getNome();
         this.sobrenome = dentista.getSobrenome();
         this.matriculaCadastro = dentista.getMatriculaCadastro();
-        this.usuario = dentista.getUsuario();
     }
 
     public int getId() {
@@ -44,11 +41,4 @@ public class DentistaDTO {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 }

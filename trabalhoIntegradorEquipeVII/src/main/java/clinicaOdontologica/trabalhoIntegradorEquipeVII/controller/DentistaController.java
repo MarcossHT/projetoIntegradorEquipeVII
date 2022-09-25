@@ -1,7 +1,8 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
 
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.ConsultaDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ProcessErrorException;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ResourceNotFoundException;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.DentistaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,50 +20,56 @@ public class DentistaController {
     private DentistaServiceImpl dentistaService;
 
     @PostMapping("/salvar")
-    public ResponseEntity<DentistaDTO> create(@RequestBody DentistaDTO dentistaDTO) {
-        ResponseEntity responseEntity = null;
-
-        if (dentistaDTO.getNome() != null) {
-            DentistaDTO dentistaDTO1  = dentistaService.create(dentistaDTO);
-            responseEntity = new ResponseEntity(dentistaDTO1, HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<DentistaDTO> create(@RequestBody DentistaDTO dentistaDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(dentistaService.create(dentistaDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
         }
-        return responseEntity;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DentistaDTO> getById(@PathVariable int id) {
-        ResponseEntity responseEntity = null;
-
-        DentistaDTO dentistaDTO = dentistaService.getById(id);
-
-        if (dentistaDTO != null) {
-            responseEntity = new ResponseEntity(dentistaDTO, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Dentista não existente", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<DentistaDTO> getById(@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(dentistaService.getById(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Dentista nao encotrado " + id);
         }
-
-        return responseEntity;
     }
 
     @GetMapping
-    public List<DentistaDTO> getAll() {
-        return dentistaService.getAll();
+    public ResponseEntity<List<DentistaDTO>> getAll() throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(dentistaService.getAll());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Dentistas nao encontrados");
+        }
     }
 
     @DeleteMapping("/deletar/{id}")
-    public String delete (@PathVariable int id) {
-        return dentistaService.delete(id);
+    public ResponseEntity<String> delete (@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(dentistaService.delete(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Dentista nao encotrado " + id);
+        }
     }
 
     @PutMapping("/atualizar")
-    public DentistaDTO update(@RequestBody DentistaDTO dentistaDTO) {
-        return dentistaService.update(dentistaDTO);
+    public ResponseEntity<DentistaDTO> update(@RequestBody DentistaDTO dentistaDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(dentistaService.update(dentistaDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
+        }
     }
 
     @GetMapping("/getByNome")
-    public DentistaDTO getByNome(@RequestParam(value = "nome") String nome) {
-        return dentistaService.getByNome(nome);
+    public ResponseEntity<DentistaDTO> getByNome(@RequestParam(value = "nome") String nome) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(dentistaService.getByNome(nome));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Dentista nao encotrado");
+        }
     };
 }

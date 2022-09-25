@@ -23,10 +23,9 @@ public class Dentista {
     private String sobrenome;
     @Column(name = "matriculaCadastro", unique = true, nullable = false)
     private String matriculaCadastro;
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Usuario.class)
-    @PrimaryKeyJoinColumn
+    /*@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Usuario.class)
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private Usuario usuario;*/
 
     /*@OneToOne(mappedBy = "dentista", fetch = FetchType.LAZY, targetEntity = Consulta.class)
     @JsonIgnore
@@ -43,7 +42,6 @@ public class Dentista {
         this.nome = dentistaDTO.getNome();
         this.sobrenome = dentistaDTO.getSobrenome();
         this.matriculaCadastro = dentistaDTO.getMatriculaCadastro();
-        this.usuario = dentistaDTO.getUsuario();
     }
 
     public int getId() {
@@ -68,7 +66,7 @@ public class Dentista {
 
     /*public List<Consulta> getConsultaList() {
         return consultaList;
-    }*/
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -76,5 +74,5 @@ public class Dentista {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
+    }*/
 }

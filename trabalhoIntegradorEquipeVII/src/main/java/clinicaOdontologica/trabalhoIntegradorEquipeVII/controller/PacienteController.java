@@ -1,5 +1,7 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ProcessErrorException;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ResourceNotFoundException;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
@@ -19,50 +21,56 @@ public class PacienteController {
     private PacienteServiceImpl pacienteService;
 
     @PostMapping("/salvar")
-    public ResponseEntity<PacienteDTO> create(@RequestBody PacienteDTO pacienteDTO) {
-        ResponseEntity responseEntity = null;
-
-        if (pacienteDTO.getNome() != null) {
-            PacienteDTO pacienteDTO1 = pacienteService.create(pacienteDTO);
-            responseEntity = new ResponseEntity(pacienteDTO1, HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity("Nome não preenchido", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<PacienteDTO> create(@RequestBody PacienteDTO pacienteDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(pacienteService.create(pacienteDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
         }
-        return responseEntity;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PacienteDTO> getById(@PathVariable int id) {
-        ResponseEntity responseEntity = null;
-
-        PacienteDTO pacienteDTO = pacienteService.getById(id);
-
-        if (pacienteDTO != null) {
-            responseEntity = new ResponseEntity(pacienteDTO, HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity("Paciente não existente", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<PacienteDTO> getById(@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(pacienteService.getById(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Paciente nao encontrado " + id);
         }
-
-        return responseEntity;
     }
 
     @GetMapping
-    public List<PacienteDTO> getAll() {
-        return pacienteService.getAll();
+    public ResponseEntity<List<PacienteDTO>> getAll() throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(pacienteService.getAll());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Pacientes não encontrados");
+        }
     }
 
     @DeleteMapping("/deletar/{id}")
-    public String delete (@PathVariable int id) {
-        return pacienteService.delete(id);
+    public ResponseEntity<String> delete (@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(pacienteService.delete(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Paciente nao encontrado " + id);
+        }
     }
 
     @PutMapping("/atualizar")
-    public PacienteDTO update(@RequestBody PacienteDTO pacienteDTO) {
-        return pacienteService.update(pacienteDTO);
+    public ResponseEntity<PacienteDTO> update(@RequestBody PacienteDTO pacienteDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(pacienteService.update(pacienteDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
+        }
     }
 
     @GetMapping("/getByNome")
-    public PacienteDTO getByNome(@RequestParam(value = "nome") String nome) {
-        return pacienteService.getByNome(nome);
+    public ResponseEntity<PacienteDTO> getByNome(@RequestParam(value = "nome") String nome) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(pacienteService.getByNome(nome));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Paciente nao encontrado");
+        }
     }
 }
