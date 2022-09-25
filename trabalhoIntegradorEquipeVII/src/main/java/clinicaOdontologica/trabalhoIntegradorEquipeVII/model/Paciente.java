@@ -4,7 +4,7 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 
 
 @Entity
@@ -23,17 +23,11 @@ public class Paciente {
     @Column(name = "dataDeAlta", nullable = false)
     private String dataDeAlta;
 
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Usuario.class)
-    private Usuario usuario;
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Endereco.class)
     @PrimaryKeyJoinColumn
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
-
-    /*@OneToOne(mappedBy = "paciente", fetch = FetchType.LAZY, targetEntity = Consulta.class)
-    @JsonIgnore
-    private List<Consulta> consultaList = new ArrayList<>();*/
 
     public Paciente() {
 
@@ -43,7 +37,6 @@ public class Paciente {
         this.id = pacienteDTO.getId();
         this.nome = pacienteDTO.getNome();
         this.sobrenome = pacienteDTO.getSobrenome();
-        this.usuario = pacienteDTO.getUsuario();
         this.endereco = pacienteDTO.getEndereco();
         this.rg = pacienteDTO.getRg();
         this.dataDeAlta = pacienteDTO.getDataDeAlta();
@@ -74,13 +67,6 @@ public class Paciente {
         return dataDeAlta;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    /*public List<Consulta> getConsultaList() {
-        return consultaList;
-    }*/
 
     public Endereco getEndereco() {
         return endereco;
@@ -90,7 +76,4 @@ public class Paciente {
         this.endereco = endereco;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 }

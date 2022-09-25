@@ -3,7 +3,6 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ProcessErrorException;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ResourceNotFoundException;
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.EnderecoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,13 +63,5 @@ public class EnderecoController {
         } catch (Exception e) {
             throw new ProcessErrorException("Um erro interno aconteceu");
         }
-    }
-
-    public ResponseEntity<String> errorNotFound(ResourceNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    }
-
-    public ResponseEntity<String> processError(ProcessErrorException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 }

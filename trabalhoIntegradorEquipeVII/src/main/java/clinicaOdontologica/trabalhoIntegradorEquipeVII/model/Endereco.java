@@ -1,13 +1,9 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Table(name = "Enderecos")
@@ -27,9 +23,6 @@ public class Endereco {
     @Column(name = "estado", nullable = false)
     private String estado;
 
-    /*@OneToMany(mappedBy = "endereco", fetch = FetchType.LAZY, targetEntity = Paciente.class)
-    @JsonIgnore
-    private List<Paciente> pacienteList = new ArrayList<>();*/
 
 
     public Endereco() {
@@ -49,9 +42,6 @@ public class Endereco {
         return id;
     }
 
-    /*public List<Paciente> getPacienteList() {
-        return pacienteList;
-    }*/
 
     public String getRua() {
         return rua;

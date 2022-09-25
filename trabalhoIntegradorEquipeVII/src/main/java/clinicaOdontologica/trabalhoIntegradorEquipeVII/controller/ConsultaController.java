@@ -5,7 +5,6 @@ import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ResourceNotFou
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.ConsultaDTO;import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.ConsultaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,13 +60,5 @@ public class ConsultaController {
         } catch (Exception e) {
             throw new ProcessErrorException("Um erro interno aconteceu");
         }
-    }
-
-    public ResponseEntity<String> errorNotFound(ResourceNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    }
-
-    public ResponseEntity<String> processError(ProcessErrorException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 }

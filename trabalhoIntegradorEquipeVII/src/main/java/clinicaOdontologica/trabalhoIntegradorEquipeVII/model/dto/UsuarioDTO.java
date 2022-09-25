@@ -1,37 +1,24 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto;
 
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.TipoUsuario;
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Usuario;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.enums.UserRoles;
 
 public class UsuarioDTO {
     private int id;
 
     private String nome;
 
+    private String userName;
     private String email;
 
     private String senha;
 
-    private TipoUsuario tipoUsuario;
+    private UserRoles userRoles;
 
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(Usuario usuario) {
-        this.id = usuario.getId();
-        this.nome = usuario.getNome();
-        this.email = usuario.getEmail();
-        this.senha = usuario.getSenha();
-        this.tipoUsuario = usuario.getTipoUsuario();
-
-    }
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -40,6 +27,14 @@ public class UsuarioDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {
@@ -58,7 +53,11 @@ public class UsuarioDTO {
         this.senha = senha;
     }
 
-    public TipoUsuario getTipoUsuario() {
-        return tipoUsuario;
+    public UserRoles getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(UserRoles userRoles) {
+        this.userRoles = userRoles;
     }
 }

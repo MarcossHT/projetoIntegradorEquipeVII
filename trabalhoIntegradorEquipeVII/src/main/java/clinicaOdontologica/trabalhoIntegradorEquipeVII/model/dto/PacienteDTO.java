@@ -2,7 +2,6 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Usuario;
 
 public class PacienteDTO {
 
@@ -10,7 +9,7 @@ public class PacienteDTO {
     private String nome;
     private String sobrenome;
 
-    private Usuario usuario;
+
     private Endereco endereco;
     private String rg;
     private String dataDeAlta;
@@ -20,7 +19,6 @@ public class PacienteDTO {
         this.id = paciente.getId();
         this.nome = paciente.getNome();
         this.sobrenome = paciente.getSobrenome();
-        this.usuario = paciente.getUsuario();
         this.endereco = paciente.getEndereco();
         this.rg = paciente.getRg();
         this.dataDeAlta = paciente.getDataDeAlta();
@@ -45,9 +43,6 @@ public class PacienteDTO {
         return sobrenome;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
     public Endereco getEndereco() {
         return endereco;
     }

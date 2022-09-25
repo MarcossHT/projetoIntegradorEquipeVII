@@ -73,12 +73,4 @@ public class PacienteController {
             throw new ResourceNotFoundException("Paciente nao encontrado");
         }
     }
-
-    public ResponseEntity<String> errorNotFound(ResourceNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    }
-
-    public ResponseEntity<String> processError(ProcessErrorException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-    }
 }

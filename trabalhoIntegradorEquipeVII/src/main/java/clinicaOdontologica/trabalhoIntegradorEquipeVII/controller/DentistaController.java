@@ -72,12 +72,4 @@ public class DentistaController {
             throw new ResourceNotFoundException("Dentista nao encotrado");
         }
     };
-
-    public ResponseEntity<String> errorNotFound(ResourceNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    }
-
-    public ResponseEntity<String> processError(ProcessErrorException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-    }
 }
