@@ -1,7 +1,6 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.enums.UserRoles;
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Usuario;
 
 public class UsuarioDTO {
     private int id;

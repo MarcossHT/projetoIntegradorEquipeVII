@@ -1,7 +1,7 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Usuario;
+
 
 public class DentistaDTO {
 

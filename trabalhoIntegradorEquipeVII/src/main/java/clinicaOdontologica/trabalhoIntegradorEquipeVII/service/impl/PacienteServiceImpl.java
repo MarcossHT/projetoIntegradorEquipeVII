@@ -1,12 +1,8 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
-
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
-
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Usuario;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.UsuarioDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IPacienteRepository;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;

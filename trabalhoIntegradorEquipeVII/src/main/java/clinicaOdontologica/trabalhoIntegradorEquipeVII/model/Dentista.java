@@ -1,13 +1,10 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Table(name = "Dentistas")
@@ -23,13 +20,6 @@ public class Dentista {
     private String sobrenome;
     @Column(name = "matriculaCadastro", unique = true, nullable = false)
     private String matriculaCadastro;
-    /*@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Usuario.class)
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;*/
-
-    /*@OneToOne(mappedBy = "dentista", fetch = FetchType.LAZY, targetEntity = Consulta.class)
-    @JsonIgnore
-    private List<Consulta> consultaList = new ArrayList<>();*/
 
 
 
@@ -64,15 +54,4 @@ public class Dentista {
         return matriculaCadastro;
     }
 
-    /*public List<Consulta> getConsultaList() {
-        return consultaList;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }*/
 }
