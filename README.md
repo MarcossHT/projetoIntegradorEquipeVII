@@ -1,10 +1,13 @@
-# Checkpoint Integrador - Sistema de reserva de consultas
-## Integrantes Grupo 7
->_Ederson Oliveira_ - 
->_Jorge Silva_ - 
->_Marcelo Pacholak_ - 
->_Marcos Pires_ - 
->_Rodrigo Gottschall_
+<h1 align="center"> <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white"/> <img src="https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot"/> <img src="https://img.shields.io/badge/Junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white"/> <img src="https://img.shields.io/badge/apache_maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white"/> <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
+</h1>
+
+# <g-emoji class="g-emoji" alias="computer" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4bb.png">💻</g-emoji>Checkpoint Integrador - Clínica Odontológica
+## Integrantes | Grupo 7
+- Marcos Pires
+- Ederson Diego de Oliveira
+- Jorge Silva
+- Marcelo Pacholak
+- Rodrigo Gottschall
 ## Docente
 >_Thiago Bellini_
 ## Mentoria
@@ -18,6 +21,9 @@ Um dos motivos, foi evitar possíveis erros de commit, que integrantes mais expe
 Dessa forma, a cada aula nós tinhamos a oportunidade de dar continuidade no que estivesse pendente e/ou aplicar os novos conteúdos passados em aula.
 
 ## Objetivo
+***Implementar um sistema que permita administrar a reserva/marcação
+de consultas para uma clínica odontológica*** 
+
 >**Administração de dados odontológicos** - Adicionar e modificar os dados
 dos dentistas. Registrar nome, sobrenome e matrícula de cadastro
 
@@ -33,6 +39,25 @@ gerenciar dentistas e pacientes
 atribuído a uma consulta com um dentista em uma determinada data e
 hora
 
+### Requerimentos Técnicos:
+
+A aplicação deve ser desenvolvida em camadas:
+- [X] **Camada de entidade de negócios** - São as classes Java do nosso negócio
+modeladas através do paradigma orientado a objetos.
+- [X] **Camada de acesso a dados (Repositório)** - São as classes que se encarregam
+de acessar o banco de dados.
+- [X] **Camada de dados (banco de dados)** - É o banco de dados do nosso sistema
+modelado através de um modelo entidade-relacionamento. Usaremos a
+base H2 por sua praticidade.
+- [X] **Camada de negócio** - São as classes de serviço que se encarregam de
+desacoplar o acesso aos dados da visão.
+- [X] **Camada de apresentação** - Estas são as telas da web que teremos que
+desenvolver usando o framework Spring Boot MVC com os controladores e
+uma dessas duas opções: HTML+JavaScript ou React para a visualização.
+- [X] **Tratar as exceções e realizar testes unitários** - Registrar qualquer exceção 
+que possa ser gerada e realizando testes unitários para garantir a qualidade dos
+desenvolvimentos.
+
 ### Aplicação
 Criamos uma API para ser consumida por esse sistema, que, conectada á um banco de dados relacional, armazenará os dados dos pacientes, dentistas e consultas. E que contará com um sistema de login para a autenticação dos usuários.
 
@@ -44,9 +69,12 @@ A construção do sistema foi viabilizada através da criação dos itens abaixo
 - [X] Services
 
 
-### Tecnologias utilizadas
-Java + SpringBoot via IntelliJ
+### Tecnologias:
 
-H2 Database
+- Java;
+- JUnit 5;
+- MAVEN;
+- Spring Boot;
+- H2 Data Base;
+- Postman (Para validar toda a interação do sistema com o banco de dados, nos auxiliando á observar a administração da clínica, na prática);
 
-Postman para validar toda a interação do sistema com o banco de dados, nos auxiliando á observar a administração da clínica, na prática.
