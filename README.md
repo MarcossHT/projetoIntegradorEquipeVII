@@ -68,6 +68,15 @@ A construção do sistema foi viabilizada através da criação dos itens abaixo
 - [X] Entities DTO
 - [X] Services
 
+### Indicações de uso
+- Criar um usuário (Lembre-se que apenas usuários ADMIN podem ter acesso a todas as rotas).
+- Autenticar usuário (Criação do token JWT).
+- Lembre-se que para criar um Paciente torna-se necessário anteriormente criar um Endereço (O mesmo endereço pode ser atribuído a vários pacientes).
+- Para criar uma consulta torna-se necessário um Paciente válido e um Destista válido.
+
+### Postman Collection 
+
+- **Acesso a collection**: (https://www.getpostman.com/collections/c9fc415cc1d88521ae82)
 
 ### Tecnologias:
 
@@ -77,4 +86,6 @@ A construção do sistema foi viabilizada através da criação dos itens abaixo
 - Spring Boot;
 - H2 Data Base;
 - Postman (Para validar toda a interação do sistema com o banco de dados, nos auxiliando á observar a administração da clínica, na prática);
+
+
 
