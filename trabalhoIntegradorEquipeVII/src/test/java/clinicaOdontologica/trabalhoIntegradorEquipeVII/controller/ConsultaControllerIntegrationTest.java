@@ -45,12 +45,13 @@ class ConsultaControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "TesteDentista", password = "1234", roles = "ADMIN")
-    void createDentista() throws Exception {
+    @WithMockUser(username = "TesteConsulta", password = "1234", roles = "ADMIN")
+    void create() throws Exception {
         DentistaDTO dentistaDTO = new DentistaDTO();
         dentistaDTO.setNome("Teste1");
         dentistaDTO.setSobrenome("DentistaTeste1");
         dentistaDTO.setMatriculaCadastro("123Dentista1");
+        dentistaDTO.setId(1);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/dentistas/salvar")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -59,17 +60,15 @@ class ConsultaControllerIntegrationTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
-    }
 
-    @Test
-    @WithMockUser(username = "TesteEndereco", password = "1234", roles = "ADMIN")
-    void createEndereco() throws Exception {
         EnderecoDTO enderecoDTO = new EnderecoDTO();
         enderecoDTO.setRua("Rua do teste 1");
         enderecoDTO.setBairro("Bairro do teste 1");
         enderecoDTO.setEstado("Estado do teste 1");
         enderecoDTO.setNumero("123");
         enderecoDTO.setCidade("cidade do teste 1");
+        enderecoDTO.setId(1);
+
 
         mockMvc.perform(MockMvcRequestBuilders.post("/enderecos/salvar")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -78,19 +77,14 @@ class ConsultaControllerIntegrationTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
-    }
 
-    @Test
-    @WithMockUser(username = "TestePaciente", password = "1234", roles = "ADMIN")
-    void createPaciente() throws Exception {
-        Endereco endereco = new Endereco(new EnderecoDTO(1, "rua do teste", "123",
-                "bairro do teste", "cidade do teste", "estado do teste"));
         PacienteDTO pacienteDTO = new PacienteDTO();
         pacienteDTO.setNome("PacienteTeste1");
         pacienteDTO.setRg("12345");
         pacienteDTO.setSobrenome("Teste1");
         pacienteDTO.setDataDeAlta("27/09/2022");
-        pacienteDTO.setEndereco(endereco);
+        pacienteDTO.setEndereco(new Endereco(enderecoDTO));
+        pacienteDTO.setId(1);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/pacientes/salvar")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -99,25 +93,12 @@ class ConsultaControllerIntegrationTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
-    }
-
-    @Test
-    @WithMockUser(username = "TesteConsulta", password = "1234", roles = "ADMIN")
-    void create() throws Exception {
-        Dentista dentista = new Dentista(new DentistaDTO(1, "Dentistateste1", "Teste",
-                "123teste"));
-
-        Endereco endereco = new Endereco(new EnderecoDTO(1, "rua do teste", "123",
-                "bairro do teste", "cidade do teste", "estado do teste"));
-
-        Paciente paciente = new Paciente(new PacienteDTO(1, "PacienteTeste", "Teste", endereco,
-                "123Teste", "27/09/2022"));
 
 
         ConsultaDTO consultaDTO = new ConsultaDTO();
         consultaDTO.setData("27/09/2022");
-        consultaDTO.setDentista(dentista);
-        consultaDTO.setPaciente(paciente);
+        consultaDTO.setDentista(new Dentista(dentistaDTO));
+        consultaDTO.setPaciente(new Paciente(pacienteDTO));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/consultas/salvar")
                         .contentType(MediaType.APPLICATION_JSON)
