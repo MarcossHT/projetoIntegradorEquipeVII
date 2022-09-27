@@ -27,6 +27,35 @@ public class PacienteDTO {
     public PacienteDTO() {
     }
 
+    public PacienteDTO(int id, String nome, String sobrenome, Endereco endereco, String rg, String dataDeAlta) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.endereco = endereco;
+        this.rg = rg;
+        this.dataDeAlta = dataDeAlta;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public void setDataDeAlta(String dataDeAlta) {
+        this.dataDeAlta = dataDeAlta;
+    }
+
     public String getNome() {
         return nome;
     }

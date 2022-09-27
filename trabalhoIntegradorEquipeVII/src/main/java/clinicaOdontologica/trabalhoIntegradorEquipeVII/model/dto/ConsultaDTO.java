@@ -39,6 +39,10 @@ public class ConsultaDTO {
         return dentista;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setDentista(Dentista dentista) {
         this.dentista = dentista;
     }
