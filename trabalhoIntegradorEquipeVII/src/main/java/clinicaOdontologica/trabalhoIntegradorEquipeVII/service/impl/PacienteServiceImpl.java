@@ -1,10 +1,6 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl;
-
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
-
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.PacienteDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.repository.IPacienteRepository;
@@ -24,19 +20,20 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
     @Autowired
     private EnderecoServiceImpl enderecoService;
 
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
+
     @Override
     public PacienteDTO create(PacienteDTO pacienteDTO) {
         Paciente paciente = new Paciente(pacienteDTO);
         EnderecoDTO enderecoDTO;
         int idEndereco = paciente.getEndereco().getId();
-
         if (enderecoService.ifEnderecoExists(idEndereco)) {
             enderecoDTO = enderecoService.getById(idEndereco);
             Endereco endereco = new Endereco(enderecoDTO);
             paciente.setEndereco(endereco);
             paciente = pacienteRepository.save(paciente);
         }
-
         pacienteDTO = new PacienteDTO(paciente);
         return pacienteDTO;
     }
@@ -48,11 +45,11 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
         return pacienteDTO;
     }
 
-    public PacienteDTO getByNome(String nome) {
-        Paciente paciente = pacienteRepository.findByNome(nome);
-        PacienteDTO pacienteDTO = new PacienteDTO(paciente);
-        return pacienteDTO;
+
+    public boolean ifPacienteExists(int id) {
+        return pacienteRepository.existsById(id);
     }
+
 
     @Override
     public String delete(int id) {
@@ -63,20 +60,27 @@ public class PacienteServiceImpl implements IService<PacienteDTO> {
     @Override
     public PacienteDTO update(PacienteDTO pacienteDTO) {
         Paciente paciente = new Paciente(pacienteDTO);
-        pacienteRepository.saveAndFlush(paciente);
+        paciente = pacienteRepository.saveAndFlush(paciente);
+        pacienteDTO = new PacienteDTO(paciente);
         return pacienteDTO;
     }
+
     @Override
     public List<PacienteDTO> getAll() {
-        List<Paciente> pacienteList = pacienteRepository.findAll();
-        List<PacienteDTO> pacienteDTOList = new ArrayList<>();
-        for (Paciente paciente : pacienteList) {
-            PacienteDTO pacienteDTO = new PacienteDTO(paciente);
-            pacienteDTOList.add(pacienteDTO);
-        }
-        return pacienteDTOList;
+      List<Paciente> pacienteList = pacienteRepository.findAll();
+      List<PacienteDTO> pacienteDTOS = new ArrayList<>();
+
+      for (Paciente paciente: pacienteList) {
+          PacienteDTO pacienteDTO = new PacienteDTO(paciente);
+          pacienteDTOS.add(pacienteDTO);
+      }
+        return pacienteDTOS;
+
     }
-    public boolean ifPacienteExists(int id) {
-        return pacienteRepository.existsById(id);
+
+    public PacienteDTO getByNome(String nome) {
+        Paciente paciente = pacienteRepository.findByNome(nome);
+        PacienteDTO pacienteDTO = new PacienteDTO(paciente);
+        return pacienteDTO;
     }
 }

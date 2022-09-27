@@ -1,12 +1,9 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.EnderecoDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Table(name = "Enderecos")
@@ -14,7 +11,7 @@ import java.util.List;
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     @Column(name = "rua", nullable = false)
     private String rua;
     @Column(name = "numero", nullable = false)
@@ -26,13 +23,17 @@ public class Endereco {
     @Column(name = "estado", nullable = false)
     private String estado;
 
-    @OneToMany(mappedBy = "endereco", fetch = FetchType.LAZY, targetEntity = Paciente.class)
-    @JsonIgnore
-    private List<Paciente> pacienteList = new ArrayList<>();
-
-
     public Endereco() {
 
+    }
+
+    public Endereco(int id, String rua, String numero, String bairro, String cidade, String estado) {
+        this.id = id;
+        this.rua = rua;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
     }
 
     public Endereco(EnderecoDTO enderecoDTO) {
@@ -44,13 +45,10 @@ public class Endereco {
         this.estado = enderecoDTO.getEstado();
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public List<Paciente> getPacienteList() {
-        return pacienteList;
-    }
 
     public String getRua() {
         return rua;

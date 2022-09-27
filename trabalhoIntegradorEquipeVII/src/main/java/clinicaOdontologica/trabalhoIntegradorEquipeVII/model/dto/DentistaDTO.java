@@ -2,13 +2,16 @@ package clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto;
 
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Dentista;
 
+
 public class DentistaDTO {
 
-    private Integer id;
+    private int id;
     private String nome;
     private String sobrenome;
     private String matriculaCadastro;
 
+    public DentistaDTO() {
+    }
 
     public DentistaDTO(Dentista dentista) {
         this.id = dentista.getId();
@@ -17,11 +20,12 @@ public class DentistaDTO {
         this.matriculaCadastro = dentista.getMatriculaCadastro();
     }
 
-    public DentistaDTO() {
+    public int getId() {
+        return id;
     }
 
-    public Integer getId() {
-        return id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -40,11 +44,12 @@ public class DentistaDTO {
         this.sobrenome = sobrenome;
     }
 
-    public String getMatriculaCadastro() {
+     public String getMatriculaCadastro() {
         return matriculaCadastro;
     }
 
     public void setMatriculaCadastro(String matriculaCadastro) {
         this.matriculaCadastro = matriculaCadastro;
     }
+
 }

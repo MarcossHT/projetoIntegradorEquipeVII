@@ -1,11 +1,11 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.controller;
 
 
-import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.ConsultaDTO;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ProcessErrorException;
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.exceptions.ResourceNotFoundException;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto.DentistaDTO;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.service.impl.DentistaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,70 +18,57 @@ public class DentistaController {
     @Autowired
     private DentistaServiceImpl dentistaService;
 
-    @PostMapping
-    public ResponseEntity<DentistaDTO> create(@RequestBody DentistaDTO dentistaDTO) {
-        ResponseEntity responseEntity = null;
-        if (dentistaDTO.getNome() != null) {
-            DentistaDTO dentistaDTO1  = dentistaService.create(dentistaDTO);
-            responseEntity = new ResponseEntity(dentistaDTO1, HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity("Data não preenchida", HttpStatus.BAD_REQUEST);
+    @PostMapping("/salvar")
+    public ResponseEntity<DentistaDTO> create(@RequestBody DentistaDTO dentistaDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(dentistaService.create(dentistaDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
         }
-        return responseEntity;
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<DentistaDTO> getById(@PathVariable Integer id) {
-        ResponseEntity responseEntity = null;
-        DentistaDTO dentistaDTO = dentistaService.getById(id);
-        if (dentistaDTO != null) {
-            responseEntity = new ResponseEntity(dentistaDTO, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Dentista não existente", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<DentistaDTO> getById(@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(dentistaService.getById(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Dentista nao encotrado " + id);
         }
-        return responseEntity;
     }
+
     @GetMapping
-    public ResponseEntity<List<DentistaDTO>> getAll() {
-        ResponseEntity responseEntity = null;
-        List <DentistaDTO> dentistaList=  dentistaService.getAll();
-        if (dentistaList != null) {
-            responseEntity = new ResponseEntity(dentistaList, HttpStatus.NOT_FOUND);
-        }else {
-            responseEntity = new ResponseEntity("Lista de dentistas indisponível", HttpStatus.NOT_FOUND);
+    public ResponseEntity<List<DentistaDTO>> getAll() throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(dentistaService.getAll());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Dentistas nao encontrados");
         }
-        return responseEntity;
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete (@PathVariable int id) {
-        ResponseEntity responseEntity = null;
-        String deleteId = dentistaService.delete(id);
-        if (deleteId != null) {
-            responseEntity = new ResponseEntity(deleteId, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Não é possível excluir um dentista inexistente", HttpStatus.BAD_REQUEST);
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<String> delete (@PathVariable int id) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(dentistaService.delete(id));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Dentista nao encotrado " + id);
         }
-        return responseEntity;
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<DentistaDTO> update(@RequestBody DentistaDTO dentistaDTO) {
-        ResponseEntity responseEntity = null;
-        DentistaDTO dentistaUpdate = dentistaService.update(dentistaDTO);
-        if (dentistaUpdate != null) {
-            responseEntity = new ResponseEntity(dentistaUpdate, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Atualização não realizada! Dados inexistentes", HttpStatus.BAD_REQUEST);
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<DentistaDTO> update(@RequestBody DentistaDTO dentistaDTO) throws ProcessErrorException{
+        try {
+            return ResponseEntity.ok(dentistaService.update(dentistaDTO));
+        } catch (Exception e) {
+            throw new ProcessErrorException("Um erro interno aconteceu");
         }
-        return responseEntity;
     }
+
     @GetMapping("/getByNome")
-    public ResponseEntity <DentistaDTO> getByNome(@RequestParam(value = "nome") String nome) {
-        ResponseEntity responseEntity = null;
-        DentistaDTO dentistaDTO = dentistaService.getByNome(nome);
-        if (dentistaDTO != null) {
-            responseEntity = new ResponseEntity(dentistaDTO, HttpStatus.OK);
-        }else {
-            responseEntity = new ResponseEntity("Dentista não existente", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<DentistaDTO> getByNome(@RequestParam(value = "nome") String nome) throws ResourceNotFoundException{
+        try {
+            return ResponseEntity.ok(dentistaService.getByNome(nome));
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Dentista nao encotrado");
         }
-        return responseEntity;
-    }
+    };
 }

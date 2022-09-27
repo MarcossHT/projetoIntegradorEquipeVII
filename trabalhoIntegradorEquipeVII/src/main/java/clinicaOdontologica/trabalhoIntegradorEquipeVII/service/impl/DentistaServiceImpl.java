@@ -16,6 +16,9 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
     @Autowired
     private IDentistaRepository dentistaRepository;
 
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
+
     @Override
     public DentistaDTO create(DentistaDTO dentistaDTO) {
         Dentista dentista = new Dentista(dentistaDTO);
@@ -30,12 +33,6 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
         return new DentistaDTO(dentista);
     }
 
-    public DentistaDTO getByNome(String nome) {
-        Dentista dentista = dentistaRepository.findByNome(nome);
-        DentistaDTO dentistaDTO = new DentistaDTO(dentista);
-        return dentistaDTO;
-    }
-
     @Override
     public String delete(int id) {
         dentistaRepository.deleteById(id);
@@ -46,20 +43,30 @@ public class DentistaServiceImpl implements IService<DentistaDTO> {
     public DentistaDTO update(DentistaDTO dentistaDTO) {
         Dentista dentista = new Dentista(dentistaDTO);
         dentistaRepository.saveAndFlush(dentista);
+        dentistaDTO = new DentistaDTO(dentista);
         return dentistaDTO;
     }
+
+    public boolean ifDentistaExists(int id) {
+        return dentistaRepository.existsById(id);
+    }
+
     @Override
     public List<DentistaDTO> getAll() {
         List<Dentista> dentistaList = dentistaRepository.findAll();
-        List<DentistaDTO> dentistaDTOList = new ArrayList<>();
-        for (Dentista dentista : dentistaList) {
+        List<DentistaDTO> dentistaDTOS = new ArrayList<>();
+
+        for (Dentista dentista: dentistaList) {
             DentistaDTO dentistaDTO = new DentistaDTO(dentista);
-            dentistaDTOList.add(dentistaDTO);
+            dentistaDTOS.add(dentistaDTO);
         }
-        return dentistaDTOList;
+        return dentistaDTOS;
     }
-    public boolean ifDentistaExists(int id) {
-        return dentistaRepository.existsById(id);
+
+    public DentistaDTO getByNome(String nome) {
+        Dentista dentista = dentistaRepository.findByNome(nome);
+        DentistaDTO dentistaDTO = new DentistaDTO(dentista);
+        return dentistaDTO;
     }
 }
 

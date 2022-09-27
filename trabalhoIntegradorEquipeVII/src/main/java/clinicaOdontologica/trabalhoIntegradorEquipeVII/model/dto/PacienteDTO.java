@@ -1,21 +1,22 @@
 package clinicaOdontologica.trabalhoIntegradorEquipeVII.model.dto;
 
+import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Endereco;
 import clinicaOdontologica.trabalhoIntegradorEquipeVII.model.Paciente;
 
 public class PacienteDTO {
 
-    private Integer id;
+    private int id;
     private String nome;
     private String sobrenome;
-    private Integer idEndereco;
+    private Endereco endereco;
     private String rg;
     private String dataDeAlta;
-
 
     public PacienteDTO(Paciente paciente) {
         this.id = paciente.getId();
         this.nome = paciente.getNome();
         this.sobrenome = paciente.getSobrenome();
+        this.endereco = paciente.getEndereco();
         this.rg = paciente.getRg();
         this.dataDeAlta = paciente.getDataDeAlta();
     }
@@ -23,12 +24,16 @@ public class PacienteDTO {
     public PacienteDTO() {
     }
 
-    public String getNome() {
-        return nome;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
+    }
+
+    public String getNome() {
+        return nome;
     }
 
     public void setNome(String nome) {
@@ -43,12 +48,12 @@ public class PacienteDTO {
         this.sobrenome = sobrenome;
     }
 
-    public Integer getIdEndereco() {
-        return idEndereco;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setIdEndereco(Integer idEndereco) {
-        this.idEndereco = idEndereco;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public String getRg() {
@@ -62,8 +67,8 @@ public class PacienteDTO {
     public String getDataDeAlta() {
         return dataDeAlta;
     }
-
     public void setDataDeAlta(String dataDeAlta) {
         this.dataDeAlta = dataDeAlta;
     }
+
 }
