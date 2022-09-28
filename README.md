@@ -70,6 +70,7 @@ A construção do sistema foi viabilizada através da criação dos itens abaixo
 
 ### Indicações de uso
 - Criar um usuário (Lembre-se que apenas usuários ADMIN podem ter acesso a todas as rotas).
+- Atentar-se para não passar o mesmo userName e email para outro usuário. Essa ação não é possível, haja visto que os atributos "userName" e "email" na classe Usuário estão classificados como unicos (Unique = true).
 - Autenticar usuário (Criação do token JWT).
 - Lembre-se que para criar um Paciente torna-se necessário anteriormente criar um Endereço (O mesmo endereço pode ser atribuído a vários pacientes).
 - Atentar-se para não passar o mesmo RG para outro Paciente. Essa ação não é possível, haja visto que o atributo "rg" na classe Paciente está classificada como unica (Unique = true).
