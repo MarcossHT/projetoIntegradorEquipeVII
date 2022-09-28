@@ -79,7 +79,7 @@ A construção do sistema foi viabilizada através da criação dos itens abaixo
 
 ### Postman Collection 
 
-- **Acesso a collection**: (https://www.getpostman.com/collections/c9fc415cc1d88521ae82)
+- **Acesso a collection**: https://www.getpostman.com/collections/c9fc415cc1d88521ae82
 
 ### Tecnologias:
 
