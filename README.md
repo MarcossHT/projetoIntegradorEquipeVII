@@ -72,6 +72,8 @@ A construção do sistema foi viabilizada através da criação dos itens abaixo
 - Criar um usuário (Lembre-se que apenas usuários ADMIN podem ter acesso a todas as rotas).
 - Autenticar usuário (Criação do token JWT).
 - Lembre-se que para criar um Paciente torna-se necessário anteriormente criar um Endereço (O mesmo endereço pode ser atribuído a vários pacientes).
+- Atentar-se para não passar o mesmo RG para outro Paciente. Essa ação não é possível, haja visto que o atributo "rg" na classe Paciente está classificada como unica (Unique = true).
+- Atentar-se para não passar o mesma Matrícula para outro Dentista. Essa ação não é possível, haja visto que o atributo "matrículaCadastro" na classe Dentista está classificada como unica (Unique = true).
 - Para criar uma consulta torna-se necessário um Paciente válido e um Destista válido.
 
 ### Postman Collection 
